@@ -1,0 +1,36 @@
+# ========================
+# IDEs e Editores
+# ========================
+.idea/
+.vscode/
+
+# ========================
+# Variáveis de Ambiente e Segredos
+# ========================
+.env
+.env.*
+!.env.example
+
+# ========================
+# Backups do PostgreSQL
+# ========================
+*.backup
+*.dump
+*.sql.gz
+
+# ========================
+# Arquivos de Log
+# ========================
+*.log
+
+# ========================
+# Arquivos Temporários
+# ========================
+*.tmp
+*.temp
+
+# ========================
+# Sistema Operacional
+# ========================
+.DS_Store
+Thumbs.db
