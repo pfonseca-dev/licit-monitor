@@ -1,6 +1,9 @@
 services:
     database:
         image: postgres:18
+
+        container_name: licit_monitor_postgres
+
         restart: unless-stopped
 
         environment:
@@ -9,10 +12,40 @@ services:
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
         ports:
-            - "${POSTGRES_PORT}:5432"
+            - "127.0.0.1:${POSTGRES_PORT}:5432"
 
         volumes:
             - database_data:/var/lib/postgresql
+            - ./back_end/init_db:/docker-entrypoint-initdb.d:ro
+
+        healthcheck:
+            test:
+                [
+                    "CMD-SHELL",
+                    "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"
+                ]
+            interval: 5s
+            timeout: 5s
+            retries: 10
+
+    collector:
+        build:
+            context: ./collector
+            dockerfile: Dockerfile
+
+        container_name: licit_monitor_collector
+
+        restart: "no"
+
+        env_file:
+            - .env
+
+        volumes:
+            - ./collector/data:/app/data
+
+        depends_on:
+            database:
+                condition: service_healthy
 
 volumes:
     database_data:

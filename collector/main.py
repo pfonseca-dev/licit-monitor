@@ -1,17 +1,34 @@
 import json
-
-from pprint import pprint
+import logging
 from typing import Any
 
 from app.api_client import buscar_dados
-from app.config import ARQUIVOS_DADOS, DATA_DIR
+from app.config import ARQUIVO_DADOS, DATA_DIR
+from app.database import abrir_conexao, testar_conexao
+from app.repository import salvar_licitacoes
 from app.transformer import extrair_licitacoes
 
 
-def salvar_json(dados: dict[str, Any]) -> None:
-    DATA_DIR.mkdir(parents=True, exist_ok=True)
+logging.basicConfig(
+    level=logging.INFO,
+    format=(
+        "%(asctime)s | "
+        "%(levelname)s | "
+        "%(name)s | "
+        "%(message)s"
+    ),
+)
 
-    with ARQUIVOS_DADOS.open(
+logger = logging.getLogger(__name__)
+
+
+def salvar_json(dados: dict[str, Any]) -> None:
+    DATA_DIR.mkdir(
+        parents=True,
+        exist_ok=True,
+    )
+
+    with ARQUIVO_DADOS.open(
         mode="w",
         encoding="utf-8",
     ) as arquivo:
@@ -20,43 +37,55 @@ def salvar_json(dados: dict[str, Any]) -> None:
             arquivo,
             ensure_ascii=False,
             indent=4,
+            default=str,
         )
 
-    print(f"JSON bruto salvo com sucesso em: {ARQUIVOS_DADOS}")
+    logger.info(
+        "JSON bruto salvo em %s.",
+        ARQUIVO_DADOS,
+    )
 
 
 def main() -> None:
-    dados_brutos = buscar_dados()
+    try:
+        testar_conexao()
 
-    salvar_json(dados_brutos)
+        dados_brutos = buscar_dados()
 
-    licitacoes_transformadas = extrair_licitacoes(
-        dados_brutos
-    )
+        salvar_json(dados_brutos)
 
-    print(
-        f"Total de licitações transformadas: "
-        f"{len(licitacoes_transformadas)}"
-    )
-
-    if not licitacoes_transformadas:
-        print("Nenhuma licitação foi encontrada.")
-        return
-
-    print("\nPrimeira licitação transformada:")
-
-    primeira_licitacao = licitacoes_transformadas[0]
-
-    pprint(primeira_licitacao)
-
-    print("\nTipos dos campos:")
-
-    for campo, valor in primeira_licitacao.items():
-        print(
-            f"{campo}: "
-            f"{type(valor).__name__} "
-            f"- {valor!r}"
+        licitacoes_transformadas = extrair_licitacoes(
+            dados_brutos
         )
+
+        logger.info(
+            "%d licitações válidas foram transformadas.",
+            len(licitacoes_transformadas),
+        )
+
+        if not licitacoes_transformadas:
+            logger.info(
+                "Nenhuma licitação foi encontrada para salvar."
+            )
+            return
+
+        with abrir_conexao() as connection:
+            total_salvo = salvar_licitacoes(
+                connection=connection,
+                licitacoes=licitacoes_transformadas,
+            )
+
+        logger.info(
+            "%d licitações foram inseridas ou atualizadas.",
+            total_salvo,
+        )
+
+    except Exception:
+        logger.exception(
+            "O collector foi encerrado devido a um erro."
+        )
+
+        raise
 
 
 if __name__ == "__main__":

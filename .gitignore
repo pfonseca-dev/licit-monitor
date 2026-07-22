@@ -30,6 +30,13 @@
 *.temp
 
 # ========================
+# Ambientes Virtuais Python
+# ========================
+.venv/
+venv/
+env/
+
+# ========================
 # Sistema Operacional
 # ========================
 .DS_Store
