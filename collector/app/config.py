@@ -1,12 +1,4 @@
 import os
-from pathlib import Path
-
-
-COLLECTOR_DIR = Path(__file__).resolve().parent.parent
-
-DATA_DIR = COLLECTOR_DIR / "data"
-ARQUIVO_DADOS = DATA_DIR / "dados.json"
-
 
 def obter_variavel_obrigatoria(nome: str) -> str:
     valor = os.getenv(nome)
@@ -33,7 +25,8 @@ def obter_inteiro(nome: str, valor_padrao: int) -> int:
         ) from erro
 
 
-API_URL = obter_variavel_obrigatoria("API_URL")
+URL_LICIT = obter_variavel_obrigatoria("URL_LICIT")
+URL_DISPE = obter_variavel_obrigatoria("URL_DISPE")
 
 DB_HOST = obter_variavel_obrigatoria("DB_HOST")
 DB_PORT = obter_inteiro("DB_PORT", 5432)

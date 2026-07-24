@@ -28,20 +28,33 @@ services:
             timeout: 5s
             retries: 10
 
-    collector:
+    collector_licitacao:
         build:
             context: ./collector
             dockerfile: Dockerfile
-
-        container_name: licit_monitor_collector
 
         restart: "no"
 
         env_file:
             - .env
 
-        volumes:
-            - ./collector/data:/app/data
+        command: ["python", "main_licitacao.py"]
+
+        depends_on:
+            database:
+                condition: service_healthy
+
+    collector_dispensa:
+        build:
+            context: ./collector
+            dockerfile: Dockerfile
+
+        restart: "no"
+
+        env_file:
+            -   .env
+
+        command: ["python", "main_dispensa.py"]
 
         depends_on:
             database:

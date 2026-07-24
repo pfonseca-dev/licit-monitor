@@ -166,13 +166,10 @@ def extrair_licitacoes(dados: dict[str, Any],) -> list[dict[str, Any]]:
         if not isinstance(licitacao, dict):
             continue
 
-        licitacao_transformada = transformar_licitacao(
-            licitacao
-        )
+        licitacao_transformada = transformar_licitacao(licitacao)
 
         if not licitacao_valida(licitacao_transformada):
             continue
 
         resultados.append(licitacao_transformada)
-
     return resultados

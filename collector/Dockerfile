@@ -9,5 +9,3 @@ RUN pip install \
     -r requirements
 
 COPY . .
-
-CMD ["python", "main.py"]
