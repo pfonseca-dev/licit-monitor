@@ -1,0 +1,185 @@
+.process-types {
+    margin-top: 16px;
+}
+
+.process-types__grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    padding: 14px;
+}
+
+.process-type-card {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    color: inherit;
+    background: transparent;
+    border-radius: 8px;
+    text-align: left;
+    transition: border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+
+.process-type-card:hover {
+    border-color: #93c5fd;
+    box-shadow: 0 6px 14px rgba(37, 99, 235, .1);
+    transform: translateY(-1px);
+}
+
+.process-type-card:focus-visible {
+    outline: 2px solid #2563eb;
+    outline-offset: 2px;
+}
+
+.dark .process-type-card {
+    border-color: #1e293b;
+}
+
+.process-type-card__header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.process-type-card__icon {
+    display: grid;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    place-items: center;
+}
+
+.process-type-card__header p {
+    margin: 0;
+    color: #1e293b;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+}
+
+.dark .process-type-card__header p {
+    color: #f8fafc;
+}
+
+.process-type-card__number {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.process-type-card__number strong {
+    color: #0f172a;
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.dark .process-type-card__number strong {
+    color: #ffffff;
+}
+
+.process-type-card__number span {
+    padding-bottom: 2px;
+    color: #64748b;
+    font-size: 11px;
+}
+
+.dark .process-type-card__number span {
+    color: #94a3b8;
+}
+
+.process-type-card__progress {
+    overflow: hidden;
+    height: 5px;
+    margin-top: 12px;
+    background: #f1f5f9;
+    border-radius: 999px;
+}
+
+.dark .process-type-card__progress {
+    background: #1e293b;
+}
+
+.process-type-card__progress span {
+    display: block;
+    height: 100%;
+    border-radius: 999px;
+}
+
+.process-type-card__description {
+    margin: 8px 0 0;
+    color: #64748b;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.dark .process-type-card__description {
+    color: #94a3b8;
+}
+
+.process-type-card--licitacao .process-type-card__icon {
+    color: #059669;
+    background: #d1fae5;
+}
+
+.process-type-card--licitacao .process-type-card__progress span {
+    background: #10b981;
+}
+
+.process-type-card--registro .process-type-card__icon {
+    color: #2563eb;
+    background: #dbeafe;
+}
+
+.process-type-card--registro .process-type-card__progress span {
+    background: #3b82f6;
+}
+
+.process-type-card--dispensa .process-type-card__icon {
+    color: #d97706;
+    background: #fef3c7;
+}
+
+.process-type-card--dispensa .process-type-card__progress span {
+    background: #f59e0b;
+}
+
+.process-type-card--inexigibilidade .process-type-card__icon {
+    color: #ef4444;
+    background: #fee2e2;
+}
+
+.process-type-card--inexigibilidade .process-type-card__progress span {
+    background: #ef4444;
+}
+
+.dark .process-type-card--licitacao .process-type-card__icon {
+    background: #052e2b;
+}
+
+.dark .process-type-card--registro .process-type-card__icon {
+    background: #172554;
+}
+
+.dark .process-type-card--dispensa .process-type-card__icon {
+    background: #451a03;
+}
+
+.dark .process-type-card--inexigibilidade .process-type-card__icon {
+    background: #450a0a;
+}
+
+@media (max-width: 1400px) {
+    .process-types__grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 640px) {
+    .process-types__grid {
+        grid-template-columns: 1fr;
+    }
+}

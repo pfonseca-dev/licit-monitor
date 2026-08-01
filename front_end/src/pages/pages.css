@@ -1,0 +1,18 @@
+.workspace-title { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 22px; }
+.workspace-title p { margin: 0; color: #2563eb; font-size: 13px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.workspace-title h1 { margin: 5px 0 0; color: #0f172a; font-size: 32px; font-weight: 900; }
+.workspace-title span { display: block; margin-top: 6px; color: #64748b; font-size: 14px; }
+.workspace-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 20px; }
+.workspace-summary article, .organs-list, .settings-card { border: 1px solid #e2e8f0; background: #fff; border-radius: 8px; box-shadow: 0 5px 18px rgba(15, 23, 42, .05); }
+.workspace-summary article { padding: 16px 18px; }
+.workspace-summary span { display: block; color: #64748b; font-size: 13px; font-weight: 700; }
+.workspace-summary strong { display: block; margin-top: 8px; color: #0f172a; font-size: 26px; font-weight: 900; }
+.organs-list { overflow: hidden; }
+.organs-list__item { display: flex; align-items: center; gap: 14px; padding: 17px 20px; border-top: 1px solid #f1f5f9; color: #94a3b8; }
+.organs-list__item:first-child { border-top: 0; }
+.organs-list__icon, .settings-card__icon { display: grid; width: 40px; height: 40px; flex-shrink: 0; color: #1d4ed8; background: #dbeafe; border-radius: 8px; place-items: center; }
+.organs-list__item div { min-width: 0; flex: 1; }.organs-list__item strong, .settings-card h2 { color: #0f172a; font-size: 15px; font-weight: 900; }.organs-list__item p, .settings-card p { margin: 4px 0 0; color: #64748b; font-size: 13px; }.organs-list__open { color: #047857; background: #d1fae5; padding: 5px 9px; border-radius: 7px; font-size: 11px; font-weight: 800; }
+.settings-grid { display: grid; gap: 16px; }.settings-card { display: flex; align-items: center; gap: 14px; padding: 20px; }.settings-card > div { flex: 1; }.settings-card h2 { margin: 0; }.settings-toggle { display: grid; width: 36px; height: 22px; padding: 0; border: 0; color: #fff; background: #1d4ed8; border-radius: 99px; place-items: center; }
+.dark .workspace-title h1, .dark .workspace-summary strong, .dark .organs-list__item strong, .dark .settings-card h2 { color: #fff; }.dark .workspace-title span, .dark .workspace-summary span, .dark .organs-list__item p, .dark .settings-card p { color: #94a3b8; }.dark .workspace-summary article, .dark .organs-list, .dark .settings-card { border-color: #1e293b; background: #0f172a; }.dark .organs-list__item { border-color: #1e293b; }.dark .organs-list__icon, .dark .settings-card__icon { color: #93c5fd; background: #172554; }
+@media (max-width: 900px) { .workspace-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .workspace-title { align-items: flex-start; flex-direction: column; }.workspace-title h1 { font-size: 26px; }.workspace-summary { grid-template-columns: 1fr; gap: 10px; }.organs-list__item { align-items: flex-start; flex-wrap: wrap; }.organs-list__open { margin-left: 54px; } }

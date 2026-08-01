@@ -1,0 +1,124 @@
+.status-card {
+    display: flex;
+    min-height: 108px;
+    align-items: center;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    border-radius: 18px;
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+}
+
+.dark .status-card {
+    background: #0f172a;
+}
+
+.status-card__icon {
+    display: grid;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    place-items: center;
+}
+
+.status-card__icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.status-card__title {
+    margin: 0;
+    color: #1e293b;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+}
+
+.dark .status-card__title {
+    color: #f8fafc;
+}
+
+.status-card__value {
+    display: block;
+    margin-top: 4px;
+    font-size: 32px;
+    font-weight: 900;
+    line-height: 1;
+}
+
+.status-card--aberto {
+    border-color: #a7f3d0;
+}
+
+.status-card--aberto .status-card__icon {
+    color: #059669;
+    background: #d1fae5;
+}
+
+.status-card--aberto .status-card__value {
+    color: #059669;
+}
+
+.status-card--homologado {
+    border-color: #bfdbfe;
+}
+
+.status-card--homologado .status-card__icon {
+    color: #2563eb;
+    background: #dbeafe;
+}
+
+.status-card--homologado .status-card__value {
+    color: #2563eb;
+}
+
+.status-card--revogado {
+    border-color: #fecaca;
+}
+
+.status-card--revogado .status-card__icon {
+    color: #ef4444;
+    background: #fee2e2;
+}
+
+.status-card--revogado .status-card__value {
+    color: #ef4444;
+}
+
+.status-card--finalizado {
+    border-color: #ddd6fe;
+}
+
+.status-card--finalizado .status-card__icon {
+    color: #7c3aed;
+    background: #ede9fe;
+}
+
+.status-card--finalizado .status-card__value {
+    color: #7c3aed;
+}
+
+.dark .status-card--aberto .status-card__icon {
+    background: #052e2b;
+}
+
+.dark .status-card--homologado .status-card__icon {
+    background: #172554;
+}
+
+.dark .status-card--revogado .status-card__icon {
+    background: #450a0a;
+}
+
+.dark .status-card--finalizado .status-card__icon {
+    background: #2e1065;
+}
+
+@media (min-width: 1800px) {
+    .status-card {
+        min-height: 116px;
+        padding: 16px;
+    }
+}
