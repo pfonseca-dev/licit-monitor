@@ -1,20 +1,21 @@
-import {
-    BadgeDollarSign,
-    FileCheck2,
-    Gavel,
-    UserRoundSearch,
-} from "lucide-react";
-import type { Processo, TipoProcesso } from "../types/processos.ts";
-
+import {BadgeDollarSign, ClipboardCheck, FileCheck2, Gavel, HandCoins, ShoppingCart,} from "lucide-react";
+import type { Processo, TipoProcesso } from "../types/processo";
 import "./ProcessTypes.css";
 
 const configuracoes = [
     {
         titulo: "Licitações",
-        descricao: "Pregão, leilão e concorrência eletrônica",
+        descricao: "Editais e oportunidades em acompanhamento",
         icon: Gavel,
         classe: "process-type-card--licitacao",
         tipo: "LICITACAO",
+    },
+    {
+        titulo: "Leilões",
+        descricao: "Alienação de bens por disputa pública",
+        icon: HandCoins,
+        classe: "process-type-card--leilao",
+        tipo: "LEILAO",
     },
     {
         titulo: "Registros de preço",
@@ -24,18 +25,25 @@ const configuracoes = [
         tipo: "REGISTRO_PRECO",
     },
     {
-        titulo: "Dispensas",
-        descricao: "Processos de dispensa de licitação",
-        icon: FileCheck2,
-        classe: "process-type-card--dispensa",
-        tipo: "DISPENSA_LICITACAO",
+        titulo: "Adesões a registros",
+        descricao: "Adesões a atas de outros órgãos",
+        icon: ClipboardCheck,
+        classe: "process-type-card--adesao",
+        tipo: "ADESAO_REGISTRO_PRECO",
     },
     {
-        titulo: "Inexigibilidades",
-        descricao: "Contratações por inviabilidade de competição",
-        icon: UserRoundSearch,
-        classe: "process-type-card--inexigibilidade",
-        tipo: "INEXIGIBILIDADE",
+        titulo: "Compras diretas",
+        descricao: "Contratações realizadas de forma direta",
+        icon: ShoppingCart,
+        classe: "process-type-card--compra-direta",
+        tipo: "COMPRA_DIRETA",
+    },
+    {
+        titulo: "Dispensas eletrônicas",
+        descricao: "Dispensas realizadas em meio eletrônico",
+        icon: FileCheck2,
+        classe: "process-type-card--dispensa-eletronica",
+        tipo: "DISPENSA_ELETRONICA",
     },
 ] satisfies { tipo: TipoProcesso; titulo: string; descricao: string; icon: typeof Gavel; classe: string }[];
 
@@ -52,7 +60,7 @@ export function ProcessTypes({ processos, aoSelecionar }: ProcessTypesProps) {
         if (quantidade === 0) return [];
 
         const porcentagem = Math.round((quantidade / total) * 100);
-        return [{...configuracao, quantidade, porcentagem}];
+        return [{ ...configuracao, quantidade, porcentagem }];
     });
 
     if (itens.length === 0) return null;
@@ -81,7 +89,7 @@ export function ProcessTypes({ processos, aoSelecionar }: ProcessTypesProps) {
                         >
                             <div className="process-type-card__header">
                 <span className="process-type-card__icon">
-                  <Icon size={23}/>
+                  <Icon size={23} />
                 </span>
 
                                 <div>
@@ -95,7 +103,7 @@ export function ProcessTypes({ processos, aoSelecionar }: ProcessTypesProps) {
                             </div>
 
                             <div className="process-type-card__progress">
-                                <span style={{width: `${item.porcentagem}%`}}/>
+                                <span style={{ width: `${item.porcentagem}%` }} />
                             </div>
 
                             <p className="process-type-card__description">

@@ -1,5 +1,5 @@
 import { AlertsPanel } from "../components/AlertsPanel";
-import type { Alerta } from "../types/processos.ts";
+import type { Alerta } from "../types/processo";
 import { PageTitle } from "./PageTitle";
 import "./pages.css";
 

@@ -1,6 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import type { StatusProcesso } from "../types/processos.ts";
-
+import type { StatusProcesso } from "../types/processo";
 import "./StatusCard.css";
 
 interface StatusCardProps {

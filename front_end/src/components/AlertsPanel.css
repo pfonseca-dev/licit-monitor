@@ -91,3 +91,35 @@
         font-size: 16px;
     }
 }
+
+@media (min-width: 2400px) {
+    .alerts-panel__list {
+        padding: 0 24px;
+    }
+
+    .alert-item {
+        gap: 16px;
+        min-height: 92px;
+        padding: 16px 0;
+    }
+
+    .alert-item__icon {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+    }
+
+    .alert-item__icon svg {
+        width: 26px;
+        height: 26px;
+    }
+
+    .alert-item p {
+        font-size: 19px;
+        line-height: 1.4;
+    }
+
+    .alert-item time {
+        font-size: 16px;
+    }
+}

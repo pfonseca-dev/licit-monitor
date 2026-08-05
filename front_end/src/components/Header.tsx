@@ -1,11 +1,4 @@
-import {
-    Landmark,
-    Moon,
-    Search,
-    SlidersHorizontal,
-    Sun,
-} from "lucide-react";
-
+import {Landmark, Moon, Search, SlidersHorizontal, Sun,} from "lucide-react";
 import "./Header.css";
 
 interface HeaderProps {
@@ -17,6 +10,11 @@ interface HeaderProps {
     aoAlternarFiltros: () => void;
     busca: string;
     aoBuscar: (valor: string) => void;
+    tituloCentral?: {
+        contexto: string;
+        titulo: string;
+    };
+    ultimaAtualizacao?: string;
 }
 
 export function Header({
@@ -28,6 +26,8 @@ export function Header({
                            aoAlternarFiltros,
                            busca,
                            aoBuscar,
+                           tituloCentral,
+                           ultimaAtualizacao,
                        }: HeaderProps) {
     return (
         <header className="header">
@@ -44,8 +44,17 @@ export function Header({
 
                 <div className="header__update">
                     <span />
-                    Dados atualizados às 15:37
+                    {ultimaAtualizacao
+                        ? `Dados atualizados às ${ultimaAtualizacao}`
+                        : "Aguardando dados do backend"}
                 </div>
+
+                {tituloCentral && (
+                    <div className="header__dashboard-title">
+                        <span>{tituloCentral.contexto}</span>
+                        <strong>{tituloCentral.titulo}</strong>
+                    </div>
+                )}
 
                 <div className="header__actions">
                     <label className="header__search">

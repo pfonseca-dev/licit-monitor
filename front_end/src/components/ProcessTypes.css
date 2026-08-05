@@ -138,21 +138,39 @@
     background: #3b82f6;
 }
 
-.process-type-card--dispensa .process-type-card__icon {
+.process-type-card--leilao .process-type-card__icon {
+    color: #7c3aed;
+    background: #ede9fe;
+}
+
+.process-type-card--leilao .process-type-card__progress span {
+    background: #8b5cf6;
+}
+
+.process-type-card--adesao .process-type-card__icon {
+    color: #0284c7;
+    background: #e0f2fe;
+}
+
+.process-type-card--adesao .process-type-card__progress span {
+    background: #0ea5e9;
+}
+
+.process-type-card--compra-direta .process-type-card__icon {
     color: #d97706;
     background: #fef3c7;
 }
 
-.process-type-card--dispensa .process-type-card__progress span {
+.process-type-card--compra-direta .process-type-card__progress span {
     background: #f59e0b;
 }
 
-.process-type-card--inexigibilidade .process-type-card__icon {
+.process-type-card--dispensa-eletronica .process-type-card__icon {
     color: #ef4444;
     background: #fee2e2;
 }
 
-.process-type-card--inexigibilidade .process-type-card__progress span {
+.process-type-card--dispensa-eletronica .process-type-card__progress span {
     background: #ef4444;
 }
 
@@ -164,11 +182,19 @@
     background: #172554;
 }
 
-.dark .process-type-card--dispensa .process-type-card__icon {
+.dark .process-type-card--leilao .process-type-card__icon {
+    background: #2e1065;
+}
+
+.dark .process-type-card--adesao .process-type-card__icon {
+    background: #082f49;
+}
+
+.dark .process-type-card--compra-direta .process-type-card__icon {
     background: #451a03;
 }
 
-.dark .process-type-card--inexigibilidade .process-type-card__icon {
+.dark .process-type-card--dispensa-eletronica .process-type-card__icon {
     background: #450a0a;
 }
 
@@ -181,5 +207,60 @@
 @media (max-width: 640px) {
     .process-types__grid {
         grid-template-columns: 1fr;
+    }
+}
+
+@media (min-width: 2400px) {
+    .process-types {
+        margin-top: 24px;
+    }
+
+    .process-types__grid {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 20px;
+        padding: 22px;
+    }
+
+    .process-type-card {
+        min-height: 138px;
+        padding: 16px 18px;
+        border-radius: 14px;
+    }
+
+    .process-type-card__header {
+        gap: 16px;
+    }
+
+    .process-type-card__icon {
+        width: 52px;
+        height: 52px;
+    }
+
+    .process-type-card__icon svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .process-type-card__header p {
+        font-size: 17px;
+    }
+
+    .process-type-card__number {
+        gap: 12px;
+        margin-top: 8px;
+    }
+
+    .process-type-card__number strong {
+        font-size: 36px;
+    }
+
+    .process-type-card__number span,
+    .process-type-card__description {
+        font-size: 16px;
+    }
+
+    .process-type-card__progress {
+        height: 7px;
+        margin-top: 12px;
     }
 }

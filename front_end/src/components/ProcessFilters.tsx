@@ -1,4 +1,4 @@
-import type { StatusProcesso, TipoProcesso } from "../types/processos.ts";
+import type { StatusProcesso, TipoProcesso } from "../types/processo";
 import "./ProcessFilters.css";
 
 export interface FiltrosProcesso {
@@ -26,9 +26,11 @@ export function ProcessFilters({ filtros, orgaos, aoAlterar, aoFechar }: Process
                     <select value={filtros.tipo} onChange={(event) => alterar("tipo", event.target.value)}>
                         <option value="">Todos os tipos</option>
                         <option value="LICITACAO">Licitação</option>
+                        <option value="LEILAO">Leilão</option>
                         <option value="REGISTRO_PRECO">Registro de preço</option>
-                        <option value="DISPENSA_LICITACAO">Dispensa</option>
-                        <option value="INEXIGIBILIDADE">Inexigibilidade</option>
+                        <option value="ADESAO_REGISTRO_PRECO">Adesão a registro de preço</option>
+                        <option value="COMPRA_DIRETA">Compra direta</option>
+                        <option value="DISPENSA_ELETRONICA">Dispensa eletrônica</option>
                     </select>
                 </label>
                 <label>Status

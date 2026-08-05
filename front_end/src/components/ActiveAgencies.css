@@ -1,0 +1,143 @@
+.active-agencies {
+    overflow: hidden;
+    border: 1px solid #e2e8f0;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 5px 18px rgba(15, 23, 42, 0.05);
+}
+
+.dark .active-agencies {
+    border-color: #1e293b;
+    background: #0f172a;
+}
+
+.active-agencies .section-heading > svg {
+    color: #2563eb;
+}
+
+.active-agencies__list {
+    margin: 0;
+    padding: 0 16px;
+    list-style: none;
+}
+
+.active-agencies__list li {
+    display: flex;
+    min-height: 62px;
+    align-items: center;
+    gap: 11px;
+    padding: 10px 0;
+    border-top: 1px solid #f1f5f9;
+}
+
+.active-agencies__list li:first-child {
+    border-top: 0;
+}
+
+.active-agencies__position {
+    display: grid;
+    width: 28px;
+    height: 28px;
+    flex-shrink: 0;
+    color: #1d4ed8;
+    background: #dbeafe;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 900;
+    place-items: center;
+}
+
+.active-agencies__name {
+    min-width: 0;
+    flex: 1;
+}
+
+.active-agencies__name strong,
+.active-agencies__name small,
+.active-agencies__total strong,
+.active-agencies__total small {
+    display: block;
+}
+
+.active-agencies__name strong {
+    overflow: hidden;
+    color: #0f172a;
+    font-size: 13px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.active-agencies__name small,
+.active-agencies__total small {
+    margin-top: 3px;
+    color: #64748b;
+    font-size: 10px;
+}
+
+.active-agencies__total {
+    flex-shrink: 0;
+    text-align: right;
+}
+
+.active-agencies__total strong {
+    color: #2563eb;
+    font-size: 17px;
+    font-weight: 900;
+}
+
+.active-agencies__list li > svg {
+    width: 16px;
+    color: #94a3b8;
+}
+
+.dark .active-agencies__list li {
+    border-color: #1e293b;
+}
+
+.dark .active-agencies__name strong {
+    color: #ffffff;
+}
+
+.dark .active-agencies__name small,
+.dark .active-agencies__total small {
+    color: #94a3b8;
+}
+
+.dark .active-agencies__position {
+    color: #93c5fd;
+    background: #172554;
+}
+
+@media (min-width: 2400px) {
+    .active-agencies {
+        border-radius: 14px;
+    }
+
+    .active-agencies__list {
+        padding: 0 24px;
+    }
+
+    .active-agencies__list li {
+        min-height: 78px;
+        gap: 16px;
+    }
+
+    .active-agencies__position {
+        width: 40px;
+        height: 40px;
+        font-size: 17px;
+    }
+
+    .active-agencies__name strong {
+        font-size: 17px;
+    }
+
+    .active-agencies__name small,
+    .active-agencies__total small {
+        font-size: 14px;
+    }
+
+    .active-agencies__total strong {
+        font-size: 23px;
+    }
+}

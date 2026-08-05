@@ -42,3 +42,29 @@
 .dark .logo__text span {
     color: #94a3b8;
 }
+
+@media (min-width: 2400px) {
+    .logo {
+        gap: 16px;
+    }
+
+    .logo__icon {
+        width: 58px;
+        height: 58px;
+        border-radius: 16px;
+    }
+
+    .logo__icon svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    .logo__text strong {
+        font-size: 28px;
+    }
+
+    .logo__text span {
+        margin-top: 8px;
+        font-size: 15px;
+    }
+}

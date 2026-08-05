@@ -16,3 +16,14 @@
 .dark .workspace-title h1, .dark .workspace-summary strong, .dark .organs-list__item strong, .dark .settings-card h2 { color: #fff; }.dark .workspace-title span, .dark .workspace-summary span, .dark .organs-list__item p, .dark .settings-card p { color: #94a3b8; }.dark .workspace-summary article, .dark .organs-list, .dark .settings-card { border-color: #1e293b; background: #0f172a; }.dark .organs-list__item { border-color: #1e293b; }.dark .organs-list__icon, .dark .settings-card__icon { color: #93c5fd; background: #172554; }
 @media (max-width: 900px) { .workspace-summary { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 640px) { .workspace-title { align-items: flex-start; flex-direction: column; }.workspace-title h1 { font-size: 26px; }.workspace-summary { grid-template-columns: 1fr; gap: 10px; }.organs-list__item { align-items: flex-start; flex-wrap: wrap; }.organs-list__open { margin-left: 54px; } }
+
+@media (min-width: 2400px) {
+    .workspace-title { display: none; }
+    .workspace-title p { font-size: 18px; }
+    .workspace-title h1 { font-size: 50px; }
+    .workspace-title span { margin-top: 10px; font-size: 19px; }
+    .workspace-summary { gap: 24px; margin-bottom: 28px; }
+    .workspace-summary article { padding: 24px 28px; border-radius: 14px; }
+    .workspace-summary span { font-size: 18px; }
+    .workspace-summary strong { margin-top: 12px; font-size: 40px; }
+}

@@ -1,16 +1,11 @@
-import {
-    AlertCircle,
-    CheckCircle2,
-    Info,
-    TriangleAlert,
-} from "lucide-react";
-import type { Alerta } from "../types/processos.ts";
-
+import {AlertCircle, CheckCircle2, Info, TriangleAlert,} from "lucide-react";
+import type { Alerta } from "../types/processo";
 import "./AlertsPanel.css";
 
 interface AlertsPanelProps {
     alertas: Alerta[];
     aoVerTodos?: () => void;
+    limite?: number;
 }
 
 const icones = {
@@ -32,7 +27,7 @@ const icones = {
     },
 };
 
-export function AlertsPanel({ alertas, aoVerTodos }: AlertsPanelProps) {
+export function AlertsPanel({ alertas, aoVerTodos, limite }: AlertsPanelProps) {
     return (
         <section className="alerts-panel">
             <div className="section-heading">
@@ -45,7 +40,7 @@ export function AlertsPanel({ alertas, aoVerTodos }: AlertsPanelProps) {
             </div>
 
             <div className="alerts-panel__list">
-                {alertas.map((alerta) => {
+                {alertas.slice(0, limite).map((alerta) => {
                     const config = icones[alerta.tipo];
                     const Icon = config.icon;
 

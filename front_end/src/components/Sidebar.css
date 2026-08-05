@@ -51,9 +51,11 @@
 .sidebar__nav {
     display: flex;
     flex: 1;
+    min-height: 120px;
     flex-direction: column;
     gap: 6px;
     margin-top: 32px;
+    overflow-y: auto;
 }
 
 .sidebar__nav-item {
@@ -97,6 +99,137 @@
 .dark .sidebar__nav-item:hover {
     color: #ffffff;
     background: #0f172a;
+}
+
+.sidebar__login {
+    margin: 14px 0 12px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.sidebar__login-trigger {
+    display: flex;
+    width: 100%;
+    height: 44px;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    border: 0;
+    color: #1d4ed8;
+    background: transparent;
+    font-size: 14px;
+    font-weight: 800;
+    text-align: left;
+}
+
+.sidebar__login-trigger:hover {
+    background: #eff6ff;
+}
+
+.sidebar__login-trigger span {
+    flex: 1;
+}
+
+.sidebar__login-chevron {
+    transition: transform 0.2s ease;
+}
+
+.sidebar__login--open .sidebar__login-chevron {
+    transform: rotate(180deg);
+}
+
+.sidebar__login-form {
+    display: grid;
+    gap: 12px;
+    padding: 4px 14px 14px;
+}
+
+.sidebar__login-form > p {
+    margin: 0;
+    color: #64748b;
+    font-size: 11px;
+}
+
+.sidebar__login-field {
+    display: grid;
+    gap: 5px;
+}
+
+.sidebar__login-field > span {
+    color: #475569;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.sidebar__login-field > div {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar__login-field svg {
+    position: absolute;
+    left: 11px;
+    color: #94a3b8;
+    pointer-events: none;
+}
+
+.sidebar__login-field input {
+    width: 100%;
+    height: 38px;
+    padding: 0 10px 0 35px;
+    border: 1px solid #cbd5e1;
+    outline: none;
+    color: #0f172a;
+    background: #ffffff;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.sidebar__login-field input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px #dbeafe;
+}
+
+.sidebar__login-button {
+    height: 38px;
+    border: 0;
+    color: #ffffff;
+    background: #1d4ed8;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 800;
+}
+
+.sidebar__login-button:hover {
+    background: #1e40af;
+}
+
+.dark .sidebar__login {
+    border-color: #1e293b;
+    background: #0f172a;
+}
+
+.dark .sidebar__login-trigger:hover {
+    background: #172554;
+}
+
+.dark .sidebar__login-form > p,
+.dark .sidebar__login-field > span {
+    color: #94a3b8;
+}
+
+.dark .sidebar__login-field input {
+    border-color: #334155;
+    color: #ffffff;
+    background: #020617;
+}
+
+.dark .sidebar__login-field input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px #172554;
 }
 
 .sidebar__status {
@@ -151,5 +284,109 @@
 
     .sidebar__nav {
         margin-top: 20px;
+    }
+}
+
+@media (min-width: 2400px) {
+    .sidebar {
+        width: 500px;
+        padding: 34px 28px;
+        border-right-width: 2px;
+    }
+
+    .sidebar__header {
+        padding: 0 12px;
+    }
+
+    .sidebar__close {
+        padding: 12px;
+        border-radius: 12px;
+    }
+
+    .sidebar__close svg {
+        width: 30px;
+        height: 30px;
+    }
+
+    .sidebar__nav {
+        gap: 10px;
+        margin-top: 46px;
+    }
+
+    .sidebar__nav-item {
+        min-height: 68px;
+        gap: 18px;
+        padding: 16px 22px;
+        border-radius: 16px;
+        font-size: 20px;
+    }
+
+    .sidebar__nav-item svg {
+        width: 27px;
+        height: 27px;
+    }
+
+    .sidebar__status {
+        padding: 24px;
+        border-radius: 20px;
+    }
+
+    .sidebar__login {
+        margin: 20px 0 18px;
+        border-radius: 20px;
+    }
+
+    .sidebar__login-trigger {
+        height: 60px;
+        gap: 14px;
+        padding: 0 22px;
+        font-size: 19px;
+    }
+
+    .sidebar__login-trigger > svg {
+        width: 26px;
+        height: 26px;
+    }
+
+    .sidebar__login-form {
+        gap: 16px;
+        padding: 4px 22px 22px;
+    }
+
+    .sidebar__login-form > p,
+    .sidebar__login-field > span {
+        font-size: 15px;
+    }
+
+    .sidebar__login-field input,
+    .sidebar__login-button {
+        height: 54px;
+        font-size: 17px;
+    }
+
+    .sidebar__login-field input {
+        padding-left: 48px;
+        border-radius: 14px;
+    }
+
+    .sidebar__login-field svg {
+        left: 16px;
+        width: 21px;
+        height: 21px;
+    }
+
+    .sidebar__status p {
+        font-size: 20px;
+    }
+
+    .sidebar__status div {
+        gap: 12px;
+        margin-top: 14px;
+        font-size: 17px;
+    }
+
+    .sidebar__status div span {
+        width: 12px;
+        height: 12px;
     }
 }

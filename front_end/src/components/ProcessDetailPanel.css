@@ -9,3 +9,88 @@
 .dark .process-detail { border-color: #1e293b; color: #e2e8f0; background: #0f172a; }.dark .process-detail__header, .dark .process-detail__object { border-color: #1e293b; }.dark .process-detail__header h2, .dark .process-detail__object p, .dark .process-detail__data dd { color: #fff; }.dark .process-detail__header button { color: #cbd5e1; background: #1e293b; }.dark .process-detail__data div { border-color: #1e293b; }
 @keyframes detail-enter { from { transform: translateX(100%); } to { transform: translateX(0); } }
 @media (max-width: 640px) { .process-detail { width: 100%; }.process-detail__header, .process-detail__content { padding: 20px; }.process-detail__status { padding: 14px 20px; }.process-detail__data { grid-template-columns: 1fr; }.process-detail__data div:last-child { grid-column: auto; } }
+
+@media (min-width: 2400px) {
+    .process-detail {
+        width: min(42vw, 1500px);
+        border-left-width: 2px;
+    }
+
+    .process-detail__header {
+        padding: 38px 44px;
+    }
+
+    .process-detail__header span {
+        font-size: 17px;
+    }
+
+    .process-detail__header h2 {
+        margin-top: 8px;
+        font-size: 36px;
+    }
+
+    .process-detail__header button {
+        width: 54px;
+        height: 54px;
+        border-radius: 14px;
+    }
+
+    .process-detail__header button svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .process-detail__status {
+        gap: 12px;
+        padding: 24px 44px;
+    }
+
+    .process-detail__status span,
+    .process-detail__status strong {
+        padding: 9px 14px;
+        border-radius: 10px;
+        font-size: 16px;
+    }
+
+    .process-detail__content {
+        padding: 34px 44px;
+    }
+
+    .process-detail__object {
+        padding-bottom: 30px;
+    }
+
+    .process-detail__object span {
+        font-size: 16px;
+    }
+
+    .process-detail__object p {
+        margin-top: 12px;
+        font-size: 21px;
+        line-height: 1.6;
+    }
+
+    .process-detail__data {
+        gap: 0 38px;
+    }
+
+    .process-detail__data div {
+        padding: 24px 0;
+    }
+
+    .process-detail__data dt {
+        gap: 11px;
+        font-size: 17px;
+    }
+
+    .process-detail__data dt svg {
+        width: 23px;
+        height: 23px;
+    }
+
+    .process-detail__data dd {
+        margin: 10px 0 0 34px;
+        font-size: 20px;
+        line-height: 1.5;
+    }
+}

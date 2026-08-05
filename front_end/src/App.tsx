@@ -1,11 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import {
-    BadgeCheck,
-    CalendarCheck2,
-    Flag,
-    Stamp,
-} from "lucide-react";
-
+import {BadgeCheck, CalendarCheck2, Flag, Stamp,} from "lucide-react";
 import { AlertsPanel } from "./components/AlertsPanel";
 import { Header } from "./components/Header";
 import { ProcessFilters } from "./components/ProcessFilters";
@@ -13,18 +7,30 @@ import type { FiltrosProcesso } from "./components/ProcessFilters";
 import { ProcessTable } from "./components/ProcessTable";
 import { ProcessDetailPanel } from "./components/ProcessDetailPanel";
 import { ProcessTypes } from "./components/ProcessTypes";
+import { ActiveAgencies } from "./components/ActiveAgencies";
 import { Sidebar } from "./components/Sidebar";
 import type { PaginaAtiva } from "./components/Sidebar";
 import { StatusCard } from "./components/StatusCard";
-import { listarAlertas } from "./service/alertas";
-import { listarProcessos } from "./service/processos";
+import { listarAlertas } from "./services/alertas";
+import { listarProcessos } from "./services/processos";
 import { AlertasPage } from "./pages/AlertasPage";
 import { ProcessosPage } from "./pages/ProcessosPage";
-import type { Alerta, Processo, StatusProcesso, TipoProcesso } from "./types/processos.ts";
-
+import type { Alerta, Processo, StatusProcesso, TipoProcesso } from "./types/processo";
 import "./styles/App.css";
 
 const filtrosIniciais: FiltrosProcesso = { tipo: "", status: "", orgao: "" };
+
+const titulosPorPagina: Record<PaginaAtiva, { contexto: string; titulo: string }> = {
+    painel: { contexto: "Visão geral", titulo: "Painel de monitoramento" },
+    processos: { contexto: "Monitoramento", titulo: "Todos os processos" },
+    licitacoes: { contexto: "Monitoramento", titulo: "Licitações" },
+    leiloes: { contexto: "Monitoramento", titulo: "Leilões" },
+    registros: { contexto: "Monitoramento", titulo: "Registros de preço" },
+    adesoes: { contexto: "Monitoramento", titulo: "Adesões a registro de preço" },
+    "compras-diretas": { contexto: "Monitoramento", titulo: "Compras diretas" },
+    "dispensas-eletronicas": { contexto: "Monitoramento", titulo: "Dispensas eletrônicas" },
+    alertas: { contexto: "Monitoramento", titulo: "Alertas" },
+};
 
 function App() {
     const [processos, setProcessos] = useState<Processo[]>([]);
@@ -36,6 +42,7 @@ function App() {
     const [busca, setBusca] = useState("");
     const [filtrosAbertos, setFiltrosAbertos] = useState(false);
     const [filtros, setFiltros] = useState<FiltrosProcesso>(filtrosIniciais);
+    const [ultimaAtualizacao, setUltimaAtualizacao] = useState<string>();
 
     useEffect(() => {
         document.documentElement.classList.toggle("dark", temaEscuro);
@@ -49,6 +56,12 @@ function App() {
                 if (!ativo) return;
                 setProcessos(processosRecebidos);
                 setAlertas(alertasRecebidos);
+                setUltimaAtualizacao(
+                    new Intl.DateTimeFormat("pt-BR", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    }).format(new Date()),
+                );
             })
             .catch((erro) => {
                 console.error("Não foi possível carregar os dados do backend.", erro);
@@ -97,6 +110,11 @@ function App() {
         return base;
     }, [processos]);
 
+    const processosPrioritarios = useMemo(
+        () => selecionarProcessosPrioritarios(processosFiltrados, 7),
+        [processosFiltrados],
+    );
+
     return (
         <div className="app">
             <Sidebar
@@ -116,6 +134,8 @@ function App() {
                     aoAlternarFiltros={() => setFiltrosAbertos((aberto) => !aberto)}
                     busca={busca}
                     aoBuscar={setBusca}
+                    tituloCentral={titulosPorPagina[paginaAtiva]}
+                    ultimaAtualizacao={ultimaAtualizacao}
                 />
 
                 {filtrosAbertos && (
@@ -128,84 +148,98 @@ function App() {
                 )}
 
                 <main className="dashboard">
-                    {paginaAtiva !== "painel" ? (
-                        <PaginaAtual
-                            pagina={paginaAtiva}
-                            processos={processosFiltrados}
-                            alertas={alertas}
-                            aoSelecionarProcesso={setProcessoSelecionado}
-                        />
-                    ) : (
-                        <>
-                            <section className="dashboard__intro">
-                                <p className="dashboard__eyebrow">Visão geral</p>
-
-                                <div className="dashboard__title-row">
-                                    <div>
-                                        <h1>Painel de monitoramento</h1>
-                                    </div>
-
-                                    <span className="dashboard__mobile-update">
-                Atualizado às 15:37
-              </span>
-                                </div>
-                            </section>
-
-                            <section
-                                aria-label="Resumo por status"
-                                className="dashboard__status-grid"
-                            >
-                                <StatusCard
-                                    status="ABERTO"
-                                    titulo="ABERTO"
-                                    quantidade={totais.ABERTO}
-                                    icon={CalendarCheck2}
-                                />
-
-                                <StatusCard
-                                    status="HOMOLOGADO"
-                                    titulo="HOMOLOGADO"
-                                    quantidade={totais.HOMOLOGADO}
-                                    icon={BadgeCheck}
-                                />
-
-                                <StatusCard
-                                    status="REVOGADO"
-                                    titulo="REVOGADO"
-                                    quantidade={totais.REVOGADO}
-                                    icon={Stamp}
-                                />
-
-                                <StatusCard
-                                    status="FINALIZADO"
-                                    titulo="FINALIZADO"
-                                    quantidade={totais.FINALIZADO}
-                                    icon={Flag}
-                                />
-                            </section>
-
-                            <div className="dashboard__main-grid">
-                                <ProcessTable
-                                    processos={processosFiltrados}
-                                    aoSelecionar={setProcessoSelecionado}
-                                    aoVerTodos={() => setPaginaAtiva("processos")}
-                                />
-                                <AlertsPanel
-                                    alertas={alertas}
-                                    aoVerTodos={() => setPaginaAtiva("alertas")}
-                                />
-                            </div>
-
-                            <ProcessTypes
-                                processos={processos}
-                                aoSelecionar={(tipo) => setPaginaAtiva(abrirPaginaPorTipo(tipo))}
+                    <div key={paginaAtiva} className="dashboard__page-transition">
+                        {paginaAtiva !== "painel" ? (
+                            <PaginaAtual
+                                pagina={paginaAtiva}
+                                processos={processosFiltrados}
+                                alertas={alertas}
+                                aoSelecionarProcesso={setProcessoSelecionado}
                             />
+                        ) : (
+                            <>
+                                <section className="dashboard__intro">
+                                    <p className="dashboard__eyebrow">Visão geral</p>
 
-                            <footer className="dashboard__footer">
-                                LicitMonitor © 2026 — Todos os direitos reservados.
-                            </footer>
-                        </>
-                    )}
+                                    <div className="dashboard__title-row">
+                                        <div>
+                                            <h1>Painel de monitoramento</h1>
+                                        </div>
+
+                                        <span className="dashboard__mobile-update">
+                {ultimaAtualizacao
+                    ? `Atualizado às ${ultimaAtualizacao}`
+                    : "Aguardando dados"}
+              </span>
+                                    </div>
+                                </section>
+
+                                <div className="dashboard__overview-grid">
+                                    <section
+                                        aria-label="Resumo por status"
+                                        className="dashboard__status-grid"
+                                    >
+                                        <StatusCard
+                                            status="ABERTO"
+                                            titulo="ABERTO"
+                                            quantidade={totais.ABERTO}
+                                            icon={CalendarCheck2}
+                                        />
+
+                                        <StatusCard
+                                            status="HOMOLOGADO"
+                                            titulo="HOMOLOGADO"
+                                            quantidade={totais.HOMOLOGADO}
+                                            icon={BadgeCheck}
+                                        />
+
+                                        <StatusCard
+                                            status="REVOGADO"
+                                            titulo="REVOGADO"
+                                            quantidade={totais.REVOGADO}
+                                            icon={Stamp}
+                                        />
+
+                                        <StatusCard
+                                            status="FINALIZADO"
+                                            titulo="FINALIZADO"
+                                            quantidade={totais.FINALIZADO}
+                                            icon={Flag}
+                                        />
+                                    </section>
+
+                                    <div className="dashboard__main-grid">
+                                        <ProcessTable
+                                            processos={processosPrioritarios}
+                                            aoSelecionar={setProcessoSelecionado}
+                                            aoVerTodos={() => setPaginaAtiva("processos")}
+                                            titulo="Processos prioritários"
+                                            descricao="Eventos recentes e situações que exigem atenção"
+                                        />
+                                        <div className="dashboard__side-column">
+                                            <AlertsPanel
+                                                alertas={alertas}
+                                                limite={3}
+                                                aoVerTodos={() => setPaginaAtiva("alertas")}
+                                            />
+                                            <ActiveAgencies
+                                                processos={processosFiltrados}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <ProcessTypes
+                                    processos={processos}
+                                    aoSelecionar={(tipo) => setPaginaAtiva(abrirPaginaPorTipo(tipo))}
+                                />
+
+                                <footer className="dashboard__footer">
+                                    LicitMonitor © 2026 — Todos os direitos reservados.
+                                </footer>
+                            </>
+                        )}
+                    </div>
                 </main>
             </div>
 
@@ -220,12 +254,65 @@ function App() {
 function abrirPaginaPorTipo(tipo: TipoProcesso) {
     const paginasPorTipo = {
         LICITACAO: "licitacoes",
+        LEILAO: "leiloes",
         REGISTRO_PRECO: "registros",
-        DISPENSA_LICITACAO: "dispensas",
-        INEXIGIBILIDADE: "inexigibilidades",
+        ADESAO_REGISTRO_PRECO: "adesoes",
+        COMPRA_DIRETA: "compras-diretas",
+        DISPENSA_ELETRONICA: "dispensas-eletronicas",
     } satisfies Record<TipoProcesso, PaginaAtiva>;
 
     return paginasPorTipo[tipo];
+}
+
+const prioridadePorStatus: Record<StatusProcesso, number> = {
+    REVOGADO: 90,
+    HOMOLOGADO: 60,
+    FINALIZADO: 30,
+    ABERTO: 0,
+};
+
+function selecionarProcessosPrioritarios(processos: Processo[], limite: number) {
+    return [...processos]
+        .sort((processoA, processoB) => {
+            const pontuacaoA = calcularPontuacao(processoA);
+            const pontuacaoB = calcularPontuacao(processoB);
+
+            return pontuacaoB - pontuacaoA || processoB.id - processoA.id;
+        })
+        .slice(0, limite);
+}
+
+function calcularPontuacao(processo: Processo) {
+    const data = obterDataMaisRecente(processo);
+    const diasDesdeReferencia = data
+        ? Math.max(0, (Date.now() - data.getTime()) / 86_400_000)
+        : 3650;
+    const relevanciaRecente = Math.max(0, 120 - diasDesdeReferencia);
+
+    return relevanciaRecente + prioridadePorStatus[processo.status];
+}
+
+function obterDataMaisRecente(processo: Processo) {
+    const datas = [
+        processo.atualizadoEm,
+        processo.dataHomologacao,
+        processo.dataReferencia,
+    ]
+        .map(converterData)
+        .filter((data): data is Date => data !== null);
+
+    return datas.sort((dataA, dataB) => dataB.getTime() - dataA.getTime())[0] ?? null;
+}
+
+function converterData(valor: string | null | undefined) {
+    if (!valor) return null;
+
+    const dataBrasileira = valor.match(/^(\d{2})\/(\d{2})\/(\d{4})/);
+    const data = dataBrasileira
+        ? new Date(Number(dataBrasileira[3]), Number(dataBrasileira[2]) - 1, Number(dataBrasileira[1]))
+        : new Date(valor);
+
+    return Number.isNaN(data.getTime()) ? null : data;
 }
 
 function PaginaAtual({

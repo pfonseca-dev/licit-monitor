@@ -1,4 +1,4 @@
-import type { Processo, TipoProcesso } from "../types/processos.ts";
+import type { Processo, TipoProcesso } from "../types/processo";
 import { ProcessTable } from "../components/ProcessTable";
 import { PageTitle } from "./PageTitle";
 import "./pages.css";
@@ -6,9 +6,11 @@ import "./pages.css";
 export type PaginaProcesso =
     | "processos"
     | "licitacoes"
+    | "leiloes"
     | "registros"
-    | "dispensas"
-    | "inexigibilidades";
+    | "adesoes"
+    | "compras-diretas"
+    | "dispensas-eletronicas";
 
 interface ProcessosPageProps {
     pagina: PaginaProcesso;
@@ -19,9 +21,11 @@ interface ProcessosPageProps {
 const configuracoes: Record<PaginaProcesso, { titulo: string; descricao: string; tipo?: TipoProcesso }> = {
     processos: { titulo: "Processos", descricao: "Acompanhe todos os processos cadastrados" },
     licitacoes: { titulo: "Licitações", descricao: "Editais e oportunidades em acompanhamento", tipo: "LICITACAO" },
+    leiloes: { titulo: "Leilões", descricao: "Processos de alienação de bens em acompanhamento", tipo: "LEILAO" },
     registros: { titulo: "Registros de preço", descricao: "Atas e registros disponíveis para consulta", tipo: "REGISTRO_PRECO" },
-    dispensas: { titulo: "Dispensas", descricao: "Processos por dispensa de licitação", tipo: "DISPENSA_LICITACAO" },
-    inexigibilidades: { titulo: "Inexigibilidades", descricao: "Contratações por inviabilidade de competição", tipo: "INEXIGIBILIDADE" },
+    adesoes: { titulo: "Adesões a registro de preço", descricao: "Adesões a atas e registros de outros órgãos", tipo: "ADESAO_REGISTRO_PRECO" },
+    "compras-diretas": { titulo: "Compras diretas", descricao: "Contratações realizadas de forma direta", tipo: "COMPRA_DIRETA" },
+    "dispensas-eletronicas": { titulo: "Dispensas eletrônicas", descricao: "Processos de dispensa realizados em meio eletrônico", tipo: "DISPENSA_ELETRONICA" },
 };
 
 function SummaryItem({ label, valor }: { label: string; valor: number }) {

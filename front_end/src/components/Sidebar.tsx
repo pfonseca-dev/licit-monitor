@@ -1,14 +1,5 @@
-import {
-    Bell,
-    CircleDollarSign,
-    FileCheck2,
-    FileSearch,
-    Gavel,
-    LayoutDashboard,
-    ScrollText,
-    X,
-} from "lucide-react";
-
+import { useState } from "react";
+import { Bell, ChevronDown, CircleDollarSign, ClipboardCheck, FileCheck2, FileSearch, Gavel, HandCoins, LayoutDashboard, LockKeyhole, LogIn, ShoppingCart, User, X,} from "lucide-react";
 import { Logo } from "./Logo";
 import "./Sidebar.css";
 
@@ -16,9 +7,11 @@ export type PaginaAtiva =
     | "painel"
     | "processos"
     | "licitacoes"
+    | "leiloes"
     | "registros"
-    | "dispensas"
-    | "inexigibilidades"
+    | "adesoes"
+    | "compras-diretas"
+    | "dispensas-eletronicas"
     | "alertas";
 
 interface SidebarProps {
@@ -32,9 +25,11 @@ const navegacao = [
     { label: "Painel", pagina: "painel", icon: LayoutDashboard },
     { label: "Processos", pagina: "processos", icon: FileSearch },
     { label: "Licitações", pagina: "licitacoes", icon: Gavel },
+    { label: "Leilões", pagina: "leiloes", icon: HandCoins },
     { label: "Registros de preço", pagina: "registros", icon: CircleDollarSign },
-    { label: "Dispensas", pagina: "dispensas", icon: FileCheck2 },
-    { label: "Inexigibilidades", pagina: "inexigibilidades", icon: ScrollText },
+    { label: "Adesões a registros", pagina: "adesoes", icon: ClipboardCheck },
+    { label: "Compras diretas", pagina: "compras-diretas", icon: ShoppingCart },
+    { label: "Dispensas eletrônicas", pagina: "dispensas-eletronicas", icon: FileCheck2 },
     { label: "Alertas", pagina: "alertas", icon: Bell },
 ] satisfies { label: string; pagina: PaginaAtiva; icon: typeof LayoutDashboard }[];
 
@@ -44,6 +39,8 @@ export function Sidebar({
                             paginaAtiva,
                             aoNavegar,
                         }: SidebarProps) {
+    const [loginAberto, setLoginAberto] = useState(false);
+
     return (
         <>
             {aberta && (
@@ -87,6 +84,62 @@ export function Sidebar({
                         </button>
                     ))}
                 </nav>
+
+                <div className={`sidebar__login ${loginAberto ? "sidebar__login--open" : ""}`}>
+                    <button
+                        type="button"
+                        className="sidebar__login-trigger"
+                        onClick={() => setLoginAberto((aberto) => !aberto)}
+                        aria-expanded={loginAberto}
+                        aria-controls="sidebar-login-form"
+                    >
+                        <LogIn size={18} />
+                        <span>Login do editor</span>
+                        <ChevronDown className="sidebar__login-chevron" size={18} />
+                    </button>
+
+                    {loginAberto && (
+                        <form
+                            id="sidebar-login-form"
+                            className="sidebar__login-form"
+                            onSubmit={(event) => event.preventDefault()}
+                        >
+                            <p>Entre para gerenciar o painel</p>
+
+                            <label className="sidebar__login-field">
+                                <span>Usuário</span>
+                                <div>
+                                    <User size={16} aria-hidden="true" />
+                                    <input
+                                        type="text"
+                                        name="usuario"
+                                        autoComplete="username"
+                                        placeholder="Digite seu usuário"
+                                        required
+                                    />
+                                </div>
+                            </label>
+
+                            <label className="sidebar__login-field">
+                                <span>Senha</span>
+                                <div>
+                                    <LockKeyhole size={16} aria-hidden="true" />
+                                    <input
+                                        type="password"
+                                        name="senha"
+                                        autoComplete="current-password"
+                                        placeholder="Digite sua senha"
+                                        required
+                                    />
+                                </div>
+                            </label>
+
+                            <button type="submit" className="sidebar__login-button">
+                                Entrar
+                            </button>
+                        </form>
+                    )}
+                </div>
 
                 <div className="sidebar__status">
                     <p>Atualização automática</p>

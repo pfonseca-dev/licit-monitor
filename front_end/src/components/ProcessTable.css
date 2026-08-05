@@ -187,12 +187,22 @@
     background: #dbeafe;
 }
 
-.process-type--dispensa {
+.process-type--leilao {
+    color: #6d28d9;
+    background: #ede9fe;
+}
+
+.process-type--adesao {
+    color: #0369a1;
+    background: #e0f2fe;
+}
+
+.process-type--compra-direta {
     color: #b45309;
     background: #fef3c7;
 }
 
-.process-type--inexigibilidade {
+.process-type--dispensa-eletronica {
     color: #b91c1c;
     background: #fee2e2;
 }
@@ -315,5 +325,73 @@
 
     .dark .process-mobile-card__footer {
         color: #94a3b8;
+    }
+}
+
+@media (min-width: 2400px) {
+    .process-table-card,
+    .alerts-panel,
+    .process-types {
+        border-radius: 14px;
+    }
+
+    .section-heading {
+        min-height: 98px;
+        padding: 20px 26px;
+    }
+
+    .section-heading h2 {
+        font-size: 24px;
+    }
+
+    .section-heading p {
+        margin-top: 6px;
+        font-size: 17px;
+    }
+
+    .section-heading button {
+        font-size: 19px;
+    }
+
+    .process-table thead {
+        font-size: 15px;
+    }
+
+    .process-table th {
+        padding: 16px 24px;
+    }
+
+    .process-table td {
+        padding: 19px 24px;
+        font-size: 19px;
+    }
+
+    .process-table__description {
+        max-width: 700px;
+    }
+
+    .process-table__description span {
+        margin-top: 5px;
+        font-size: 16px;
+    }
+
+    .process-type {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+
+    .process-status {
+        gap: 9px;
+        font-size: 18px;
+    }
+
+    .process-status__dot {
+        width: 11px;
+        height: 11px;
+    }
+
+    .process-table__arrow {
+        width: 24px;
+        height: 24px;
     }
 }

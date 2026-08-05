@@ -6,9 +6,11 @@ export type StatusProcesso =
 
 export type TipoProcesso =
     | "LICITACAO"
+    | "LEILAO"
     | "REGISTRO_PRECO"
-    | "DISPENSA_LICITACAO"
-    | "INEXIGIBILIDADE";
+    | "ADESAO_REGISTRO_PRECO"
+    | "COMPRA_DIRETA"
+    | "DISPENSA_ELETRONICA";
 
 export interface Processo {
     id: number;
@@ -22,6 +24,7 @@ export interface Processo {
     lei: string;
     tipoAquisicao: string;
     observacao: string;
+    atualizadoEm?: string | null;
     dataHomologacao: string | null;
     status: StatusProcesso;
     valorEstimado: number | null;

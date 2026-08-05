@@ -1,18 +1,6 @@
 import { useEffect } from "react";
-import {
-    Building2,
-    CalendarDays,
-    CircleCheckBig,
-    FileText,
-    Landmark,
-    MessageSquareText,
-    Scale,
-    ShoppingCart,
-    Tags,
-    X,
-} from "lucide-react";
-
-import type { Processo } from "../types/processos.ts";
+import {Building2, CalendarDays, CircleCheckBig, FileText, Landmark, MessageSquareText, Scale, ShoppingCart, Tags, X,} from "lucide-react";
+import type { Processo } from "../types/processo";
 import "./ProcessDetailPanel.css";
 
 interface ProcessDetailPanelProps {
@@ -22,9 +10,11 @@ interface ProcessDetailPanelProps {
 
 const rotulosTipo = {
     LICITACAO: "Licitação",
+    LEILAO: "Leilão",
     REGISTRO_PRECO: "Registro de preço",
-    DISPENSA_LICITACAO: "Dispensa",
-    INEXIGIBILIDADE: "Inexigibilidade",
+    ADESAO_REGISTRO_PRECO: "Adesão a registro de preço",
+    COMPRA_DIRETA: "Compra direta",
+    DISPENSA_ELETRONICA: "Dispensa eletrônica",
 };
 
 const rotulosStatus = {

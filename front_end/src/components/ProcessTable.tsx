@@ -1,16 +1,13 @@
 import { ChevronRight } from "lucide-react";
-import type {
-    Processo,
-    StatusProcesso,
-    TipoProcesso,
-} from "../types/processos.ts";
-
+import type {Processo, StatusProcesso, TipoProcesso,} from "../types/processo";
 import "./ProcessTable.css";
 
 interface ProcessTableProps {
     processos: Processo[];
     aoSelecionar?: (processo: Processo) => void;
     aoVerTodos?: () => void;
+    titulo?: string;
+    descricao?: string;
 }
 
 const tipos: Record<TipoProcesso, { label: string; classe: string }> = {
@@ -18,17 +15,25 @@ const tipos: Record<TipoProcesso, { label: string; classe: string }> = {
         label: "Licitação",
         classe: "process-type--licitacao",
     },
+    LEILAO: {
+        label: "Leilão",
+        classe: "process-type--leilao",
+    },
     REGISTRO_PRECO: {
         label: "Registro de preço",
         classe: "process-type--registro",
     },
-    DISPENSA_LICITACAO: {
-        label: "Dispensa",
-        classe: "process-type--dispensa",
+    ADESAO_REGISTRO_PRECO: {
+        label: "Adesão a registro",
+        classe: "process-type--adesao",
     },
-    INEXIGIBILIDADE: {
-        label: "Inexigibilidade",
-        classe: "process-type--inexigibilidade",
+    COMPRA_DIRETA: {
+        label: "Compra direta",
+        classe: "process-type--compra-direta",
+    },
+    DISPENSA_ELETRONICA: {
+        label: "Dispensa eletrônica",
+        classe: "process-type--dispensa-eletronica",
     },
 };
 
@@ -52,13 +57,15 @@ export function ProcessTable({
                                  processos,
                                  aoSelecionar,
                                  aoVerTodos,
+                                 titulo = "Processos em acompanhamento",
+                                 descricao = "Informações mais importantes para consulta rápida",
                              }: ProcessTableProps) {
     return (
         <section className="process-table-card">
             <div className="section-heading">
                 <div>
-                    <h2>Processos em acompanhamento</h2>
-                    <p>Informações mais importantes para consulta rápida</p>
+                    <h2>{titulo}</h2>
+                    <p>{descricao}</p>
                 </div>
 
                 {aoVerTodos && <button type="button" onClick={aoVerTodos}>Ver todos</button>}
@@ -101,7 +108,7 @@ export function ProcessTable({
 
                                 <td>
                     <span className={`process-type ${tipo.classe}`}>
-                      {tipo.label}
+                      {processo.tipoAquisicao}
                     </span>
                                 </td>
 
