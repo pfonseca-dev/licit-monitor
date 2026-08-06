@@ -1,5 +1,4 @@
 .process-table-card,
-.alerts-panel,
 .process-types {
     overflow: hidden;
     border: 1px solid #e2e8f0;
@@ -9,7 +8,6 @@
 }
 
 .dark .process-table-card,
-.dark .alerts-panel,
 .dark .process-types {
     border-color: #1e293b;
     background: #0f172a;
@@ -330,7 +328,6 @@
 
 @media (min-width: 2400px) {
     .process-table-card,
-    .alerts-panel,
     .process-types {
         border-radius: 14px;
     }

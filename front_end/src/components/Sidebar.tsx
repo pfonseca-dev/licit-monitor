@@ -1,5 +1,4 @@
 import {
-    Bell,
     CircleDollarSign,
     ClipboardCheck,
     FileCheck2,
@@ -22,8 +21,7 @@ export type PaginaAtiva =
     | "registros"
     | "adesoes"
     | "compras-diretas"
-    | "dispensas-eletronicas"
-    | "alertas";
+    | "dispensas-eletronicas";
 
 interface SidebarProps {
     aberta: boolean;
@@ -41,7 +39,6 @@ const navegacao = [
     { label: "Adesões a registros", pagina: "adesoes", icon: ClipboardCheck },
     { label: "Compras diretas", pagina: "compras-diretas", icon: ShoppingCart },
     { label: "Dispensas eletrônicas", pagina: "dispensas-eletronicas", icon: FileCheck2 },
-    { label: "Alertas", pagina: "alertas", icon: Bell },
 ] satisfies { label: string; pagina: PaginaAtiva; icon: typeof LayoutDashboard }[];
 
 export function Sidebar({

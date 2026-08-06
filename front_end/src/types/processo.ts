@@ -30,10 +30,3 @@ export interface Processo {
     status: StatusProcesso;
     valorEstimado: number | null;
 }
-
-export interface Alerta {
-    id: number;
-    tipo: "ERRO" | "ATENCAO" | "INFORMACAO" | "SUCESSO";
-    mensagem: string;
-    criadoEm: string;
-}

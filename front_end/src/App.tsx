@@ -6,7 +6,6 @@ import {
     Stamp,
 } from "lucide-react";
 
-import { AlertsPanel } from "./components/AlertsPanel";
 import { Header } from "./components/Header";
 import { AuthModal } from "./components/AuthModal";
 import { ProcessFilters } from "./components/ProcessFilters";
@@ -15,15 +14,14 @@ import { ProcessTable } from "./components/ProcessTable";
 import { ProcessDetailPanel } from "./components/ProcessDetailPanel";
 import { ProcessTypes } from "./components/ProcessTypes";
 import { ActiveAgencies } from "./components/ActiveAgencies";
+import { WeeklyMovement } from "./components/WeeklyMovement";
 import { Sidebar } from "./components/Sidebar";
 import type { PaginaAtiva } from "./components/Sidebar";
 import { StatusCard } from "./components/StatusCard";
-import { listarAlertas } from "./services/alertas";
 import { atualizarObservacao, listarProcessos } from "./services/processos";
 import { buscarUsuarioAtual, type Usuario } from "./services/auth";
-import { AlertasPage } from "./pages/AlertasPage";
 import { ProcessosPage } from "./pages/ProcessosPage";
-import type { Alerta, Processo, StatusProcesso, TipoProcesso } from "./types/processo";
+import type { Processo, StatusProcesso, TipoProcesso } from "./types/processo";
 
 import "./styles/App.css";
 
@@ -38,12 +36,10 @@ const titulosPorPagina: Record<PaginaAtiva, { contexto: string; titulo: string }
     adesoes: { contexto: "Monitoramento", titulo: "Adesões a registro de preço" },
     "compras-diretas": { contexto: "Monitoramento", titulo: "Compras diretas" },
     "dispensas-eletronicas": { contexto: "Monitoramento", titulo: "Dispensas eletrônicas" },
-    alertas: { contexto: "Monitoramento", titulo: "Alertas" },
 };
 
 function App() {
     const [processos, setProcessos] = useState<Processo[]>([]);
-    const [alertas, setAlertas] = useState<Alerta[]>([]);
     const [menuAberto, setMenuAberto] = useState(false);
     const [paginaAtiva, setPaginaAtiva] = useState<PaginaAtiva>("painel");
     const [processoSelecionado, setProcessoSelecionado] = useState<Processo | null>(null);
@@ -70,11 +66,10 @@ function App() {
     useEffect(() => {
         let ativo = true;
 
-        Promise.all([listarProcessos(), listarAlertas()])
-            .then(([processosRecebidos, alertasRecebidos]) => {
+        listarProcessos()
+            .then((processosRecebidos) => {
                 if (!ativo) return;
                 setProcessos(processosRecebidos);
-                setAlertas(alertasRecebidos);
                 setUltimaAtualizacao(
                     new Intl.DateTimeFormat("pt-BR", {
                         hour: "2-digit",
@@ -181,7 +176,6 @@ function App() {
                             <PaginaAtual
                                 pagina={paginaAtiva}
                                 processos={processosFiltrados}
-                                alertas={alertas}
                                 aoSelecionarProcesso={setProcessoSelecionado}
                             />
                         ) : (
@@ -245,14 +239,10 @@ function App() {
                                             descricao="Eventos recentes e situações que exigem atenção"
                                         />
                                         <div className="dashboard__side-column">
-                                            <AlertsPanel
-                                                alertas={alertas}
-                                                limite={3}
-                                                aoVerTodos={() => setPaginaAtiva("alertas")}
-                                            />
                                             <ActiveAgencies
                                                 processos={processosFiltrados}
                                             />
+                                            <WeeklyMovement processos={processosFiltrados} />
                                         </div>
                                     </div>
                                 </div>
@@ -261,6 +251,7 @@ function App() {
                                     processos={processos}
                                     aoSelecionar={(tipo) => setPaginaAtiva(abrirPaginaPorTipo(tipo))}
                                 />
+
 
                                 <footer className="dashboard__footer">
                                     LicitMonitor © 2026 — Todos os direitos reservados.
@@ -356,15 +347,12 @@ function converterData(valor: string | null | undefined) {
 function PaginaAtual({
                          pagina,
                          processos,
-                         alertas,
                          aoSelecionarProcesso,
                      }: {
     pagina: Exclude<PaginaAtiva, "painel">;
     processos: Processo[];
-    alertas: Alerta[];
     aoSelecionarProcesso: (processo: Processo) => void;
 }) {
-    if (pagina === "alertas") return <AlertasPage alertas={alertas} />;
     return (
         <ProcessosPage
             pagina={pagina}
