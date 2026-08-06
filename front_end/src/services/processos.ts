@@ -83,6 +83,7 @@ function transformarOrgaoEmLista(orgao: string | null): string[] {
 function mapearLicitacao(licitacao: LicitacaoApiResponse,): Processo {
     return {
         id: licitacao.id,
+        fonte: "licitacao",
 
         numero:
             licitacao.numero_edital
@@ -144,6 +145,7 @@ function mapearDispensa(
 ): Processo {
     return {
         id: dispensa.id,
+        fonte: "dispensa",
 
         numero:
         dispensa.processo_compra,
@@ -220,4 +222,12 @@ export async function listarProcessos(): Promise<Processo[]> {
         ...licitacoes,
         ...dispensas,
     ];
+}
+
+export async function atualizarObservacao(
+    processo: Processo,
+    observacao: string,
+): Promise<void> {
+    const recurso = processo.fonte === "licitacao" ? "licitacoes" : "dispensas";
+    await api.patch(`/${recurso}/${processo.id}/observacao`, { observacao });
 }

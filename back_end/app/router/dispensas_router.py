@@ -5,6 +5,8 @@ from app.service.dispensa_service import DispensaService
 from app.core.database import get_session
 from app.repository.dispensas_repository import DispensasRepository
 from app.schema.dispensa_schema import DispensasResponse, DispensaObservacaoUpdate
+from app.models.usuario import Usuario
+from app.dependencies.auth import get_current_editor
 
 router = APIRouter(
     prefix="/dispensas",
@@ -26,7 +28,11 @@ def get_dispensas_id(dispensa_id: int, session: Session = Depends(get_session)):
     return service.get_dispensas_id(dispensa_id)
 
 @router.patch("/{dispensa_id}/observacao", response_model=DispensasResponse)
-def atualizar_observacao(dispensa_id: int, dados: DispensaObservacaoUpdate, session: Session = Depends(get_session)):
+def atualizar_observacao(dispensa_id: int,
+                         dados: DispensaObservacaoUpdate,
+                         session: Session = Depends(get_session),
+                         usuario: Usuario = Depends(get_current_editor),
+                         ):
     repository = DispensasRepository(session)
     service = DispensaService(repository)
 

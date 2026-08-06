@@ -23,12 +23,39 @@
 
 .header__brand-button,
 .header__icon-button,
-.header__filter {
+.header__filter,
+.header__login-button {
     height: 44px;
     border: 1px solid #e2e8f0;
     color: #475569;
     background: #ffffff;
     border-radius: 12px;
+}
+
+.header__login-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 17px;
+    border: 1px solid #1d4ed8;
+    color: #ffffff;
+    background: #1d4ed8;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.header__login-button:hover {
+    background: #1e40af;
+    transform: translateY(-1px);
+}
+
+.header__login-button:focus-visible {
+    outline: 3px solid #bfdbfe;
+    outline-offset: 2px;
 }
 
 .header__filter--active {
@@ -177,6 +204,13 @@
         font-size: 0;
         place-items: center;
     }
+
+    .header__login-button {
+        width: 44px;
+        padding: 0;
+        font-size: 0;
+        justify-content: center;
+    }
 }
 
 @media (min-width: 2400px) {
@@ -224,6 +258,7 @@
     .header__brand-button,
     .header__icon-button,
     .header__filter,
+    .header__login-button,
     .header__search input {
         height: 60px;
         border-radius: 16px;

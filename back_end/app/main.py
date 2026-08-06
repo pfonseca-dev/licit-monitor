@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.router.licitacoes_router import router as licitacoes_router
 from app.router.dispensas_router import router as dispensas_router
+from app.router.auth_router import router as auth_router
+from app.router.usuario_router import router as usuario_router
 
 app = FastAPI(
     title="Licit Monitor API",
@@ -20,6 +22,8 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(auth_router)
+app.include_router(usuario_router)
 app.include_router(licitacoes_router)
 app.include_router(dispensas_router)
 

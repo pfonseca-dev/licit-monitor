@@ -1,5 +1,16 @@
-import { useState } from "react";
-import { Bell, ChevronDown, CircleDollarSign, ClipboardCheck, FileCheck2, FileSearch, Gavel, HandCoins, LayoutDashboard, LockKeyhole, LogIn, ShoppingCart, User, X,} from "lucide-react";
+import {
+    Bell,
+    CircleDollarSign,
+    ClipboardCheck,
+    FileCheck2,
+    FileSearch,
+    Gavel,
+    HandCoins,
+    LayoutDashboard,
+    ShoppingCart,
+    X,
+} from "lucide-react";
+
 import { Logo } from "./Logo";
 import "./Sidebar.css";
 
@@ -39,8 +50,6 @@ export function Sidebar({
                             paginaAtiva,
                             aoNavegar,
                         }: SidebarProps) {
-    const [loginAberto, setLoginAberto] = useState(false);
-
     return (
         <>
             {aberta && (
@@ -84,62 +93,6 @@ export function Sidebar({
                         </button>
                     ))}
                 </nav>
-
-                <div className={`sidebar__login ${loginAberto ? "sidebar__login--open" : ""}`}>
-                    <button
-                        type="button"
-                        className="sidebar__login-trigger"
-                        onClick={() => setLoginAberto((aberto) => !aberto)}
-                        aria-expanded={loginAberto}
-                        aria-controls="sidebar-login-form"
-                    >
-                        <LogIn size={18} />
-                        <span>Login do editor</span>
-                        <ChevronDown className="sidebar__login-chevron" size={18} />
-                    </button>
-
-                    {loginAberto && (
-                        <form
-                            id="sidebar-login-form"
-                            className="sidebar__login-form"
-                            onSubmit={(event) => event.preventDefault()}
-                        >
-                            <p>Entre para gerenciar o painel</p>
-
-                            <label className="sidebar__login-field">
-                                <span>Usuário</span>
-                                <div>
-                                    <User size={16} aria-hidden="true" />
-                                    <input
-                                        type="text"
-                                        name="usuario"
-                                        autoComplete="username"
-                                        placeholder="Digite seu usuário"
-                                        required
-                                    />
-                                </div>
-                            </label>
-
-                            <label className="sidebar__login-field">
-                                <span>Senha</span>
-                                <div>
-                                    <LockKeyhole size={16} aria-hidden="true" />
-                                    <input
-                                        type="password"
-                                        name="senha"
-                                        autoComplete="current-password"
-                                        placeholder="Digite sua senha"
-                                        required
-                                    />
-                                </div>
-                            </label>
-
-                            <button type="submit" className="sidebar__login-button">
-                                Entrar
-                            </button>
-                        </form>
-                    )}
-                </div>
 
                 <div className="sidebar__status">
                     <p>Atualização automática</p>

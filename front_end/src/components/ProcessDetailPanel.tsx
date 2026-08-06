@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import {Building2, CalendarDays, CircleCheckBig, FileText, Landmark, MessageSquareText, Scale, ShoppingCart, Tags, X,} from "lucide-react";
 import type { Processo } from "../types/processo";
 import "./ProcessDetailPanel.css";
@@ -6,6 +6,8 @@ import "./ProcessDetailPanel.css";
 interface ProcessDetailPanelProps {
     processo: Processo | null;
     aoFechar: () => void;
+    podeEditar: boolean;
+    aoSalvarObservacao: (processo: Processo, observacao: string) => Promise<void>;
 }
 
 const rotulosTipo = {
@@ -27,7 +29,18 @@ const rotulosStatus = {
 export function ProcessDetailPanel({
                                        processo,
                                        aoFechar,
+                                       podeEditar,
+                                       aoSalvarObservacao,
                                    }: ProcessDetailPanelProps) {
+    const [observacao, setObservacao] = useState("");
+    const [salvando, setSalvando] = useState(false);
+    const [erro, setErro] = useState("");
+
+    useEffect(() => {
+        setObservacao(processo?.observacao ?? "");
+        setErro("");
+    }, [processo]);
+
     useEffect(() => {
         const fecharComEscape = (event: KeyboardEvent) => {
             if (event.key === "Escape") aoFechar();
@@ -38,6 +51,20 @@ export function ProcessDetailPanel({
     }, [processo, aoFechar]);
 
     if (!processo) return null;
+
+    async function salvarObservacao(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        if (!processo) return;
+        setSalvando(true);
+        setErro("");
+        try {
+            await aoSalvarObservacao(processo, observacao);
+        } catch {
+            setErro("Não foi possível salvar a observação.");
+        } finally {
+            setSalvando(false);
+        }
+    }
 
     const valor = processo.valorEstimado
         ? processo.valorEstimado.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
@@ -70,7 +97,22 @@ export function ProcessDetailPanel({
                         <div><dt><CircleCheckBig size={17} /> Data de homologação</dt><dd>{processo.dataHomologacao ?? "Ainda não homologado"}</dd></div>
                         <div className="process-detail__observation">
                             <dt><MessageSquareText size={17} /> Observação</dt>
-                            <dd>{processo.observacao}</dd>
+                            <dd>
+                                {podeEditar ? (
+                                    <form onSubmit={salvarObservacao}>
+                                        <textarea
+                                            value={observacao}
+                                            onChange={(event) => setObservacao(event.target.value)}
+                                            maxLength={5000}
+                                            required
+                                        />
+                                        {erro && <span role="alert">{erro}</span>}
+                                        <button type="submit" disabled={salvando}>
+                                            {salvando ? "Salvando..." : "Salvar observação"}
+                                        </button>
+                                    </form>
+                                ) : processo.observacao}
+                            </dd>
                         </div>
                     </dl>
                 </section>

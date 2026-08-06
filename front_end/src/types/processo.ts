@@ -14,6 +14,7 @@ export type TipoProcesso =
 
 export interface Processo {
     id: number;
+    fonte: "licitacao" | "dispensa";
     numero: string;
     tipo: TipoProcesso;
     modalidade: string;

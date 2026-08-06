@@ -1,5 +1,14 @@
-import {Landmark, Moon, Search, SlidersHorizontal, Sun,} from "lucide-react";
+import {
+    Landmark,
+    Moon,
+    Search,
+    SlidersHorizontal,
+    Sun,
+    UserRound,
+} from "lucide-react";
+
 import "./Header.css";
+import type { Usuario } from "../services/auth";
 
 interface HeaderProps {
     temaEscuro: boolean;
@@ -15,6 +24,8 @@ interface HeaderProps {
         titulo: string;
     };
     ultimaAtualizacao?: string;
+    aoAbrirLogin: () => void;
+    usuario: Usuario | null;
 }
 
 export function Header({
@@ -28,6 +39,8 @@ export function Header({
                            aoBuscar,
                            tituloCentral,
                            ultimaAtualizacao,
+                           aoAbrirLogin,
+                           usuario,
                        }: HeaderProps) {
     return (
         <header className="header">
@@ -83,6 +96,15 @@ export function Header({
                         aria-label="Alternar tema"
                     >
                         {temaEscuro ? <Sun size={19} /> : <Moon size={19} />}
+                    </button>
+
+                    <button
+                        type="button"
+                        onClick={aoAbrirLogin}
+                        className="header__login-button"
+                    >
+                        <UserRound size={18} />
+                        {usuario ? usuario.nome : "Entrar"}
                     </button>
 
                 </div>

@@ -1,14 +1,12 @@
 CREATE TABLE usuarios (
     id BIGINT GENERATED ALWAYS AS IDENTITY,
-    nome VARCHAR(50) NOT NULL,
+    nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
-    senha VARCHAR(255) NOT NULL,
+    senha_hash VARCHAR(255) NOT NULL,
     perfil perfil_usuario NOT NULL DEFAULT 'visualizador',
-    criado_em TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    atualizado_em TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    ativo BOOLEAN NOT NULL DEFAULT TRUE;
 
     CONSTRAINT pk_usuarios PRIMARY KEY (id),
-    CONSTRAINT uq_usuarios_nome UNIQUE (nome),
     CONSTRAINT uq_usuarios_email UNIQUE (email)
 );
 

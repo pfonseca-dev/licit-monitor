@@ -1,7 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
-import {BadgeCheck, CalendarCheck2, Flag, Stamp,} from "lucide-react";
+import {
+    BadgeCheck,
+    CalendarCheck2,
+    Flag,
+    Stamp,
+} from "lucide-react";
+
 import { AlertsPanel } from "./components/AlertsPanel";
 import { Header } from "./components/Header";
+import { AuthModal } from "./components/AuthModal";
 import { ProcessFilters } from "./components/ProcessFilters";
 import type { FiltrosProcesso } from "./components/ProcessFilters";
 import { ProcessTable } from "./components/ProcessTable";
@@ -12,10 +19,12 @@ import { Sidebar } from "./components/Sidebar";
 import type { PaginaAtiva } from "./components/Sidebar";
 import { StatusCard } from "./components/StatusCard";
 import { listarAlertas } from "./services/alertas";
-import { listarProcessos } from "./services/processos";
+import { atualizarObservacao, listarProcessos } from "./services/processos";
+import { buscarUsuarioAtual, type Usuario } from "./services/auth";
 import { AlertasPage } from "./pages/AlertasPage";
 import { ProcessosPage } from "./pages/ProcessosPage";
 import type { Alerta, Processo, StatusProcesso, TipoProcesso } from "./types/processo";
+
 import "./styles/App.css";
 
 const filtrosIniciais: FiltrosProcesso = { tipo: "", status: "", orgao: "" };
@@ -43,10 +52,20 @@ function App() {
     const [filtrosAbertos, setFiltrosAbertos] = useState(false);
     const [filtros, setFiltros] = useState<FiltrosProcesso>(filtrosIniciais);
     const [ultimaAtualizacao, setUltimaAtualizacao] = useState<string>();
+    const [loginAberto, setLoginAberto] = useState(false);
+    const [usuario, setUsuario] = useState<Usuario | null>(null);
 
     useEffect(() => {
         document.documentElement.classList.toggle("dark", temaEscuro);
     }, [temaEscuro]);
+
+    useEffect(() => {
+        if (!localStorage.getItem("access_token")) return;
+
+        buscarUsuarioAtual()
+            .then(setUsuario)
+            .catch(() => localStorage.removeItem("access_token"));
+    }, []);
 
     useEffect(() => {
         let ativo = true;
@@ -136,7 +155,16 @@ function App() {
                     aoBuscar={setBusca}
                     tituloCentral={titulosPorPagina[paginaAtiva]}
                     ultimaAtualizacao={ultimaAtualizacao}
+                    aoAbrirLogin={() => setLoginAberto(true)}
+                    usuario={usuario}
                 />
+
+                {loginAberto && (
+                    <AuthModal
+                        aoFechar={() => setLoginAberto(false)}
+                        aoAutenticar={setUsuario}
+                    />
+                )}
 
                 {filtrosAbertos && (
                     <ProcessFilters
@@ -245,6 +273,16 @@ function App() {
 
             <ProcessDetailPanel
                 processo={processoSelecionado}
+                podeEditar={usuario?.perfil === "editor"}
+                aoSalvarObservacao={async (processo, observacao) => {
+                    await atualizarObservacao(processo, observacao);
+                    const atualizar = (item: Processo) =>
+                        item.fonte === processo.fonte && item.id === processo.id
+                            ? { ...item, observacao }
+                            : item;
+                    setProcessos((atuais) => atuais.map(atualizar));
+                    setProcessoSelecionado((atual) => atual ? atualizar(atual) : null);
+                }}
                 aoFechar={() => setProcessoSelecionado(null)}
             />
         </div>
