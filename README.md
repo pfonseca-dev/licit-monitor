@@ -1,5 +1,7 @@
 <div align="center">
 
+Português | [English](README.en.md)
+
 # Licit Monitor
 
 ### Monitoramento inteligente de compras públicas
