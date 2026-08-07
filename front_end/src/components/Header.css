@@ -183,6 +183,10 @@
         display: none;
     }
 
+    .header__login-button {
+        display: none;
+    }
+
     .header__update {
         margin-right: auto;
     }
@@ -193,24 +197,29 @@
         padding: 10px 16px;
     }
 
+    .header__brand-button {
+        display: none;
+    }
+
     .header__update {
         display: none;
     }
 
     .header__filter {
-        display: grid;
+        display: flex;
         width: 44px;
         padding: 0;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
         font-size: 0;
-        place-items: center;
+        line-height: 0;
     }
 
-    .header__login-button {
-        width: 44px;
-        padding: 0;
-        font-size: 0;
-        justify-content: center;
+    .header__filter svg {
+        flex: none;
     }
+
 }
 
 @media (min-width: 2400px) {
@@ -222,6 +231,10 @@
         position: relative;
         width: min(100%, 3600px);
         gap: 18px;
+    }
+
+    .header__login-button {
+        display: none;
     }
 
     .header__dashboard-title {

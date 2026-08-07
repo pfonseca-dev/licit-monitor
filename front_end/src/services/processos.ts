@@ -224,6 +224,14 @@ export async function listarProcessos(): Promise<Processo[]> {
     ];
 }
 
+export async function buscarUltimaAtualizacao(): Promise<string | null> {
+    const resposta = await api.get<{ ultima_atualizacao: string | null }>(
+        "/status/ultima-atualizacao",
+    );
+
+    return resposta.data.ultima_atualizacao;
+}
+
 export async function atualizarObservacao(
     processo: Processo,
     observacao: string,

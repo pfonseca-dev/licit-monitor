@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
     BadgeCheck,
     CalendarCheck2,
@@ -17,15 +17,22 @@ import { ActiveAgencies } from "./components/ActiveAgencies";
 import { WeeklyMovement } from "./components/WeeklyMovement";
 import { Sidebar } from "./components/Sidebar";
 import type { PaginaAtiva } from "./components/Sidebar";
+import { MobileNavigation } from "./components/MobileNavigation";
 import { StatusCard } from "./components/StatusCard";
-import { atualizarObservacao, listarProcessos } from "./services/processos";
+import {
+    atualizarObservacao,
+    buscarUltimaAtualizacao,
+    listarProcessos,
+} from "./services/processos";
 import { buscarUsuarioAtual, type Usuario } from "./services/auth";
+import { construirUrlApi } from "./services/api";
 import { ProcessosPage } from "./pages/ProcessosPage";
 import type { Processo, StatusProcesso, TipoProcesso } from "./types/processo";
 
 import "./styles/App.css";
 
 const filtrosIniciais: FiltrosProcesso = { tipo: "", status: "", orgao: "" };
+const INTERVALO_RELOAD_MS = 5 * 60 * 1000;
 
 const titulosPorPagina: Record<PaginaAtiva, { contexto: string; titulo: string }> = {
     painel: { contexto: "Visão geral", titulo: "Painel de monitoramento" },
@@ -51,9 +58,31 @@ function App() {
     const [loginAberto, setLoginAberto] = useState(false);
     const [usuario, setUsuario] = useState<Usuario | null>(null);
 
+    const carregarProcessos = useCallback(async () => {
+        const [processosRecebidos, atualizacao] = await Promise.all([
+            listarProcessos(),
+            buscarUltimaAtualizacao(),
+        ]);
+        setProcessos(processosRecebidos);
+        setUltimaAtualizacao(atualizacao ? (
+            new Intl.DateTimeFormat("pt-BR", {
+                hour: "2-digit",
+                minute: "2-digit",
+            }).format(new Date(atualizacao))
+        ) : undefined);
+    }, []);
+
     useEffect(() => {
         document.documentElement.classList.toggle("dark", temaEscuro);
     }, [temaEscuro]);
+
+    useEffect(() => {
+        const reloadTimer = window.setInterval(() => {
+            window.location.reload();
+        }, INTERVALO_RELOAD_MS);
+
+        return () => window.clearInterval(reloadTimer);
+    }, []);
 
     useEffect(() => {
         if (!localStorage.getItem("access_token")) return;
@@ -66,16 +95,9 @@ function App() {
     useEffect(() => {
         let ativo = true;
 
-        listarProcessos()
-            .then((processosRecebidos) => {
+        carregarProcessos()
+            .then(() => {
                 if (!ativo) return;
-                setProcessos(processosRecebidos);
-                setUltimaAtualizacao(
-                    new Intl.DateTimeFormat("pt-BR", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                    }).format(new Date()),
-                );
             })
             .catch((erro) => {
                 console.error("Não foi possível carregar os dados do backend.", erro);
@@ -84,7 +106,41 @@ function App() {
         return () => {
             ativo = false;
         };
-    }, []);
+    }, [carregarProcessos]);
+
+    useEffect(() => {
+        const eventSource = new EventSource(construirUrlApi("/events/processos"));
+        let atualizacaoEmAndamento = false;
+        let atualizacaoPendente = false;
+
+        const atualizarDados = async () => {
+            if (atualizacaoEmAndamento) {
+                atualizacaoPendente = true;
+                return;
+            }
+            atualizacaoEmAndamento = true;
+            try {
+                do {
+                    atualizacaoPendente = false;
+                    await carregarProcessos();
+                } while (atualizacaoPendente);
+            } catch (erro) {
+                console.error("Não foi possível atualizar os dados após o evento SSE.", erro);
+            } finally {
+                atualizacaoEmAndamento = false;
+            }
+        };
+
+        eventSource.addEventListener("processos_changed", atualizarDados);
+        eventSource.onerror = (erro) => {
+            console.error("Conexão SSE interrompida; o navegador tentará reconectar.", erro);
+        };
+
+        return () => {
+            eventSource.removeEventListener("processos_changed", atualizarDados);
+            eventSource.close();
+        };
+    }, [carregarProcessos]);
 
     const orgaos = useMemo(
         () => Array.from(new Set(processos.flatMap((processo) => processo.orgaos))).sort(),
@@ -261,6 +317,11 @@ function App() {
                     </div>
                 </main>
             </div>
+
+            <MobileNavigation
+                paginaAtiva={paginaAtiva}
+                aoNavegar={setPaginaAtiva}
+            />
 
             <ProcessDetailPanel
                 processo={processoSelecionado}

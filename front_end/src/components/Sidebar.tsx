@@ -30,16 +30,21 @@ interface SidebarProps {
     aoNavegar: (pagina: PaginaAtiva) => void;
 }
 
-const navegacao = [
-    { label: "Painel", pagina: "painel", icon: LayoutDashboard },
-    { label: "Processos", pagina: "processos", icon: FileSearch },
-    { label: "Licitações", pagina: "licitacoes", icon: Gavel },
-    { label: "Leilões", pagina: "leiloes", icon: HandCoins },
-    { label: "Registros de preço", pagina: "registros", icon: CircleDollarSign },
-    { label: "Adesões a registros", pagina: "adesoes", icon: ClipboardCheck },
-    { label: "Compras diretas", pagina: "compras-diretas", icon: ShoppingCart },
-    { label: "Dispensas eletrônicas", pagina: "dispensas-eletronicas", icon: FileCheck2 },
-] satisfies { label: string; pagina: PaginaAtiva; icon: typeof LayoutDashboard }[];
+export const navegacao = [
+    { label: "Painel", labelMobile: "Painel", pagina: "painel", icon: LayoutDashboard },
+    { label: "Processos", labelMobile: "Processos", pagina: "processos", icon: FileSearch },
+    { label: "Licitações", labelMobile: "Licitações", pagina: "licitacoes", icon: Gavel },
+    { label: "Leilões", labelMobile: "Leilões", pagina: "leiloes", icon: HandCoins },
+    { label: "Registros de preço", labelMobile: "Registros", pagina: "registros", icon: CircleDollarSign },
+    { label: "Adesões a registros", labelMobile: "Adesões", pagina: "adesoes", icon: ClipboardCheck },
+    { label: "Compras diretas", labelMobile: "Compras", pagina: "compras-diretas", icon: ShoppingCart },
+    { label: "Dispensas eletrônicas", labelMobile: "Dispensas", pagina: "dispensas-eletronicas", icon: FileCheck2 },
+] satisfies {
+    label: string;
+    labelMobile: string;
+    pagina: PaginaAtiva;
+    icon: typeof LayoutDashboard;
+}[];
 
 export function Sidebar({
                             aberta,

@@ -1,0 +1,102 @@
+.mobile-navigation {
+    display: none;
+}
+
+@media (max-width: 640px) {
+    .mobile-navigation {
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 25;
+        display: block;
+        padding: 7px 8px max(7px, env(safe-area-inset-bottom));
+        border-top: 1px solid rgba(226, 232, 240, 0.9);
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow: 0 -8px 24px rgba(15, 23, 42, 0.08);
+        backdrop-filter: blur(18px);
+    }
+
+    .mobile-navigation__items {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
+        overscroll-behavior-x: contain;
+        scrollbar-width: none;
+        scroll-snap-type: x proximity;
+    }
+
+    .mobile-navigation__items::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mobile-navigation__item {
+        position: relative;
+        display: flex;
+        min-width: 78px;
+        min-height: 56px;
+        flex: 1 0 78px;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 5px;
+        padding: 6px 8px;
+        border: 0;
+        color: #64748b;
+        background: transparent;
+        border-radius: 12px;
+        font-size: 10.5px;
+        font-weight: 750;
+        line-height: 1.1;
+        scroll-snap-align: start;
+        white-space: nowrap;
+        transition: color 180ms ease, background 180ms ease, transform 180ms ease;
+    }
+
+    .mobile-navigation__item svg {
+        flex: none;
+        transition: transform 180ms ease;
+    }
+
+    .mobile-navigation__item span {
+        display: block;
+        width: 100%;
+        overflow: hidden;
+        text-align: center;
+        text-overflow: ellipsis;
+    }
+
+    .mobile-navigation__item--active {
+        color: #1d4ed8;
+        background: #eff6ff;
+    }
+
+    .mobile-navigation__item--active::before {
+        position: absolute;
+        top: -7px;
+        width: 28px;
+        height: 3px;
+        background: #2563eb;
+        border-radius: 0 0 4px 4px;
+        content: "";
+    }
+
+    .mobile-navigation__item--active svg {
+        transform: translateY(-1px);
+    }
+
+    .dark .mobile-navigation {
+        border-color: #1e293b;
+        background: rgba(2, 6, 23, 0.96);
+        box-shadow: 0 -8px 24px rgba(0, 0, 0, 0.24);
+    }
+
+    .dark .mobile-navigation__item {
+        color: #94a3b8;
+    }
+
+    .dark .mobile-navigation__item--active {
+        color: #93c5fd;
+        background: rgba(30, 58, 138, 0.42);
+    }
+}

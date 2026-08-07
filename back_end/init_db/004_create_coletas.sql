@@ -1,0 +1,4 @@
+CREATE TABLE IF NOT EXISTS coletas (
+    fonte VARCHAR(30) PRIMARY KEY,
+    realizada_em TIMESTAMPTZ NOT NULL
+);

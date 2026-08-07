@@ -38,7 +38,7 @@ services:
 
         container_name: collectorLicit
 
-        restart: "no"
+        restart: unless-stopped
 
         env_file:
             - .env
@@ -59,7 +59,7 @@ services:
 
         container_name: collectorDisp
 
-        restart: "no"
+        restart: unless-stopped
 
         env_file:
             -   .env

@@ -145,6 +145,12 @@
   }
 }
 
+@media (max-width: 640px) {
+  .app__content {
+    padding-bottom: calc(70px + env(safe-area-inset-bottom));
+  }
+}
+
 @media (max-width: 560px) {
   .dashboard__status-grid {
     grid-template-columns: 1fr;

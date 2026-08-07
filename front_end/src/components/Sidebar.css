@@ -287,6 +287,13 @@
     }
 }
 
+@media (max-width: 640px) {
+    .sidebar,
+    .sidebar-overlay {
+        display: none;
+    }
+}
+
 @media (min-width: 2400px) {
     .sidebar {
         width: 500px;

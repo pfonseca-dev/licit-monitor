@@ -15,6 +15,21 @@ from app.config import (
 )
 
 
+SQL_CRIAR_TABELA_COLETAS = """
+    CREATE TABLE IF NOT EXISTS coletas (
+        fonte VARCHAR(30) PRIMARY KEY,
+        realizada_em TIMESTAMPTZ NOT NULL
+    )
+"""
+
+SQL_REGISTRAR_COLETA = """
+    INSERT INTO coletas (fonte, realizada_em)
+    VALUES (%s, CURRENT_TIMESTAMP)
+    ON CONFLICT (fonte)
+    DO UPDATE SET realizada_em = EXCLUDED.realizada_em;
+"""
+
+
 @contextmanager
 def abrir_conexao() -> Iterator[Connection]:
     connection: Connection | None = None
@@ -65,3 +80,9 @@ def testar_conexao() -> None:
             f"banco={resultado['banco']}, "
             f"usuario={resultado['usuario']}"
         )
+
+
+def registrar_coleta(connection: Connection, fonte: str) -> None:
+    """Registra somente coletas concluídas sem erro."""
+    connection.execute(SQL_CRIAR_TABELA_COLETAS)
+    connection.execute(SQL_REGISTRAR_COLETA, (fonte,))
