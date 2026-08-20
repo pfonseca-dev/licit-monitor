@@ -9,6 +9,13 @@ from urllib3.util.retry import Retry
 logger = logging.getLogger(__name__)
 
 
+HEADERS_PADRAO = {
+    "Accept": "application/json, text/plain, */*",
+    # O portal Geosiap bloqueia o User-Agent padrão do requests.
+    "User-Agent": "licit-monitor/1.0 (+https://github.com/)",
+}
+
+
 def criar_sessao() -> requests.Session:
     retry = Retry(
         total=3,
@@ -22,6 +29,7 @@ def criar_sessao() -> requests.Session:
     adapter = HTTPAdapter(max_retries=retry)
 
     session = requests.Session()
+    session.headers.update(HEADERS_PADRAO)
     session.mount("https://", adapter)
     session.mount("http://", adapter)
 
