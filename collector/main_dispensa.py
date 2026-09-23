@@ -8,7 +8,7 @@ from app.dispensas.service import executar
 logger = logging.getLogger(__name__)
 
 INTERVALO_SEGUNDOS = int(
-    os.environ.get("INTERVALO_SEGUNDOS", 300)
+    os.getenv("COLLECTOR_INTERVAL", "300")
 )
 
 def executar_coleta() -> None:
