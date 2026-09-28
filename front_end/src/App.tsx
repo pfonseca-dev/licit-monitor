@@ -109,7 +109,7 @@ function App() {
     }, [carregarProcessos]);
 
     useEffect(() => {
-        const eventSource = new EventSource(construirUrlApi("/events/processos"));
+        let eventSource: EventSource | undefined;
         let atualizacaoEmAndamento = false;
         let atualizacaoPendente = false;
 
@@ -131,14 +131,23 @@ function App() {
             }
         };
 
-        eventSource.addEventListener("processos_changed", atualizarDados);
-        eventSource.onerror = (erro) => {
-            console.error("Conexão SSE interrompida; o navegador tentará reconectar.", erro);
-        };
+        // O StrictMode pode limpar o efeito imediatamente; só abra a conexão
+        // no próximo ciclo para não iniciar uma requisição que será cancelada.
+        const conexaoTimer = window.setTimeout(() => {
+            eventSource = new EventSource(construirUrlApi("/events/processos"));
+            eventSource.addEventListener("processos_changed", atualizarDados);
+            eventSource.onerror = (erro) => {
+                console.error("Conexão SSE interrompida; o navegador tentará reconectar.", erro);
+            };
+        }, 0);
 
         return () => {
-            eventSource.removeEventListener("processos_changed", atualizarDados);
-            eventSource.close();
+            window.clearTimeout(conexaoTimer);
+            eventSource?.removeEventListener("processos_changed", atualizarDados);
+            if (eventSource) {
+                eventSource.onerror = null;
+                eventSource.close();
+            }
         };
     }, [carregarProcessos]);
 
